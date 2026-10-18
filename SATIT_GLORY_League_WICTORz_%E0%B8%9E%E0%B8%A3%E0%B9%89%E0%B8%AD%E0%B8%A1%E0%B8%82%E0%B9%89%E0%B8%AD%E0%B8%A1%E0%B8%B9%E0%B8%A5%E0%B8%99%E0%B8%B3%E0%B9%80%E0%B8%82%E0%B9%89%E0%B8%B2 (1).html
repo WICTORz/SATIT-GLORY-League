@@ -1,0 +1,478 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SATIT GLORY League Platform | WICTORz · Season 2</title>
+<style>
+:root{--bg:#0a0e18;--panel:#121a2a;--panel2:#182338;--line:#2b3952;--text:#f4f6fb;--muted:#aab6ca;--gold:#e9bd62;--green:#6fd6a0;--red:#ff8b8b;--blue:#8ebdff}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at top,#17243a 0,#0a0e18 55%);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",Tahoma,sans-serif}
+header{padding:26px max(16px,calc((100vw - 1250px)/2));border-bottom:1px solid var(--line);background:#0c1220dd;position:sticky;top:0;z-index:5;backdrop-filter:blur(12px)}
+.brand{color:var(--gold);font-size:12px;font-weight:800;letter-spacing:2px;text-transform:uppercase}.headrow{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}h1{font-size:clamp(22px,3vw,34px);margin:5px 0 0;letter-spacing:-.5px}h2{font-size:21px;margin:0 0 14px}h3{font-size:16px;margin:0 0 10px;color:#f5d997}.sub{color:var(--muted);font-size:13px;margin-top:7px}
+main{max-width:1250px;margin:22px auto;padding:0 16px 70px}.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}.tab,button{cursor:pointer;border:1px solid var(--line);border-radius:10px;padding:10px 14px;background:var(--panel2);color:var(--text);font-weight:700}.tab.active,button.primary{background:var(--gold);border-color:var(--gold);color:#1a1a1a}.tab:hover,button:hover{filter:brightness(1.1)}.panel{background:linear-gradient(145deg,#141d2f,#101725);border:1px solid var(--line);border-radius:16px;padding:18px;margin-bottom:16px;box-shadow:0 12px 35px #0002}.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.field{display:flex;flex-direction:column;gap:6px;min-width:0}.field label,.label{font-size:12px;color:var(--muted);font-weight:700}.field input,.field select,.field textarea,select,input[type=number],input[type=text]{width:100%;border:1px solid #34435e;border-radius:9px;background:#0b1220;color:var(--text);padding:10px;font:inherit;min-width:0}.field textarea{min-height:68px;resize:vertical}.checkgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.check{display:flex;gap:9px;align-items:flex-start;border:1px solid #2c3b55;background:#0d1524;border-radius:9px;padding:10px;font-size:13px;line-height:1.4}.check input{margin-top:3px;accent-color:var(--gold);transform:scale(1.1)}.check b{color:var(--gold);white-space:nowrap}.section{margin-top:18px;padding-top:16px;border-top:1px solid var(--line)}.pill{display:inline-flex;padding:5px 9px;border-radius:99px;background:#27344b;color:#cbd8eb;font-size:11px;font-weight:800}.scorebox{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:14px}.score{background:#0a1220;border:1px solid var(--line);border-radius:12px;padding:12px}.score small{display:block;color:var(--muted);font-size:11px}.score strong{display:block;font-size:22px;margin-top:3px}.score.final{border-color:#9b7a37;background:linear-gradient(135deg,#302617,#151b27)}.score.final strong{color:var(--gold);font-size:28px}.nominee{border:1px solid var(--line);border-radius:15px;margin-bottom:14px;overflow:hidden;background:#101827}.nom-head{display:flex;align-items:center;justify-content:space-between;padding:13px 16px;background:#1a263a;gap:10px;flex-wrap:wrap}.nom-body{padding:16px}.nom-head strong{font-size:17px}.small{font-size:12px;color:var(--muted)}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:15px}.danger{color:var(--red)}.good{color:var(--green)}.tablewrap{overflow:auto}table{width:100%;border-collapse:collapse;font-size:13px;min-width:750px}th,td{padding:10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}th{color:var(--gold);background:#192438;position:sticky;top:0}td input,td select{min-width:85px!important}.mutedbox{padding:12px;border:1px dashed #43516b;border-radius:10px;color:var(--muted);font-size:12px;line-height:1.6}.summary{display:flex;gap:10px;flex-wrap:wrap}.summary .score{flex:1;min-width:145px}.hidden{display:none!important}.footer{color:var(--muted);font-size:12px;line-height:1.7;margin-top:20px}.section-title{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px}
+@media(max-width:800px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.grid3{grid-template-columns:repeat(2,minmax(0,1fr))}.scorebox{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:520px){.grid,.grid2,.grid3,.checkgrid{grid-template-columns:1fr}.nom-body{padding:12px}.panel{padding:13px}header{position:static}.score strong{font-size:19px}}
+@media print{body{background:white;color:#111}header{position:static;background:white;color:#111}.panel,.nominee{break-inside:avoid;background:white;color:#111;border-color:#aaa}.nom-head{background:#eee;color:#111}.tab,.actions,button{display:none}.field input,.field select{background:white;color:#111}.score{background:white;color:#111}.sub,.small,.field label,.score small{color:#444}}
+
+.platform-nav{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 18px;padding:10px;border:1px solid var(--line);border-radius:15px;background:#0c1220}.platform-nav .tab{font-size:12px;padding:10px 12px}.platform-module{animation:fadeIn .2s ease}.hero{display:flex;align-items:center;justify-content:space-between;gap:18px;min-height:190px;background:radial-gradient(ellipse at 80% 20%,#574323 0,#1c2638 35%,#111827 75%);overflow:hidden}.hero-badge{display:flex;align-items:center;justify-content:center;border:2px solid var(--gold);border-radius:50%;width:112px;height:112px;min-width:112px;color:var(--gold);font-size:17px;font-weight:900;letter-spacing:1px;box-shadow:0 0 30px #e9bd6230}.metric{background:linear-gradient(145deg,#1a2940,#101725);border:1px solid #33435e;border-radius:14px;padding:16px}.metric small{color:var(--muted);font-size:11px;display:block}.metric strong{font-size:28px;color:var(--gold);display:block;margin:4px 0}.metric span{color:var(--muted);font-size:12px}.formchip{display:inline-flex;padding:3px 7px;border-radius:6px;font-size:11px;font-weight:900;margin:2px}.form-W{background:#174b39;color:#91f0bd}.form-D{background:#53451f;color:#f8d77b}.form-L{background:#542c36;color:#ffb3bd}.tablewrap table{min-width:800px}.platform-module .panel h2{letter-spacing:.1px}@keyframes fadeIn{from{opacity:.5;transform:translateY(3px)}to{opacity:1;transform:none}}@media(max-width:600px){.hero{align-items:flex-start}.hero-badge{width:74px;height:74px;min-width:74px;font-size:12px}.platform-nav{position:static}.platform-nav .tab{flex:1 1 auto}}
+
+
+/* WICTORz Platform UI refinement */
+:root{
+ --bg:#070b13;--panel:#101827;--panel2:#172338;--line:#293951;
+ --text:#f2f5fb;--muted:#9eacc2;--gold:#e8bf68;--green:#65e0aa;
+ --red:#ff858f;--blue:#8ebdff;--violet:#b7a4ff;
+}
+body{
+ background:
+  radial-gradient(ellipse at 15% -10%,rgba(91,123,173,.18),transparent 34%),
+  radial-gradient(ellipse at 95% 0%,rgba(232,191,104,.10),transparent 26%),
+  #070b13;
+ letter-spacing:.05px;
+}
+header{
+ background:rgba(7,11,19,.91);
+ border-bottom:1px solid rgba(142,189,255,.18);
+ box-shadow:0 8px 28px rgba(0,0,0,.18);
+}
+header:after{
+ content:"LEAGUE OPS  /  ANALYTICS CORE";
+ display:block;color:#687b98;font:700 9px/1.4 ui-monospace,SFMono-Regular,Consolas,monospace;
+ letter-spacing:2px;margin-top:12px
+}
+.brand{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:2.2px}
+h1{font-weight:850;letter-spacing:-1px}
+main{max-width:1400px}
+.panel,.metric,.nominee{
+ border-color:rgba(117,143,181,.2);
+ box-shadow:0 14px 36px rgba(0,0,0,.14);
+}
+.panel{background:linear-gradient(145deg,rgba(19,29,46,.97),rgba(12,19,31,.98))}
+.metric{background:linear-gradient(145deg,#192840,#101725)}
+.platform-nav{
+ position:sticky;top:104px;z-index:4;
+ background:rgba(9,14,24,.94);backdrop-filter:blur(16px);
+ border-color:rgba(117,143,181,.22);
+ box-shadow:0 10px 24px rgba(0,0,0,.16)
+}
+button,.tab{transition:transform .15s ease,border-color .15s ease,filter .15s ease}
+button:hover,.tab:hover{transform:translateY(-1px);border-color:#6e85a8}
+button.primary,.tab.active{box-shadow:0 4px 16px rgba(232,191,104,.16)}
+.field input:focus,.field select:focus,.field textarea:focus,
+input[type=number]:focus,input[type=text]:focus,select:focus{
+ outline:2px solid rgba(142,189,255,.6);outline-offset:1px;border-color:#8ebdff
+}
+th{background:#1a2940}
+.hero{border-color:rgba(232,191,104,.28)}
+.hero-badge{font-family:ui-monospace,SFMono-Regular,Consolas,monospace}
+.pill{border:1px solid rgba(142,189,255,.12)}
+.score.final{box-shadow:inset 0 0 0 1px rgba(232,191,104,.08)}
+.footer{border-top:1px solid var(--line);padding-top:16px}
+#systemStatus{font-family:ui-monospace,SFMono-Regular,Consolas,monospace}
+@media(max-width:800px){.platform-nav{top:8px}}
+@media(max-width:600px){
+ .platform-nav{position:static}
+ header:after{letter-spacing:1px}
+}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}}
+
+</style>
+</head>
+<body>
+<header><div class="headrow"><div><div class="brand"><span style="color:var(--green)">●</span> WICTORz × SATIT GLORY · OFFICIAL LEAGUE PLATFORM</div><h1>SATIT GLORY LEAGUE <span style="color:var(--gold)">2026</span></h1><div class="sub">SEASON 2 · Powered by WICTORz · League Management & Weekly Fantasy Points</div><div style="margin-top:10px;display:flex;gap:7px;flex-wrap:wrap"><span class="pill">● LOCAL DATABASE</span><span class="pill">LIVE SCORE CALCULATION</span><span class="pill">JSON BACKUP / RESTORE</span></div></div><div class="actions" style="margin:0"><button onclick="exportJSON()">สำรองข้อมูล JSON</button><button onclick="document.getElementById('importFile').click()">นำเข้าข้อมูล</button><input id="importFile" type="file" accept=".json,application/json" class="hidden" onchange="importJSON(event)"><button onclick="window.print()">Print / Save PDF</button></div></div></header>
+<main>
+<div class="platform-nav" id="platformTabs">
+<button class="tab active" data-module="dashboard">ภาพรวมลีก</button><button class="tab" data-module="fixtures">โปรแกรม & ผลการแข่งขัน</button><button class="tab" data-module="standings">ตารางคะแนน</button><button class="tab" data-module="stats">ดาวซัลโว & แอสซิสต์</button><button class="tab" data-module="players">ทะเบียนนักเตะ</button><button class="tab" data-module="discipline">ใบเหลือง/ใบแดง</button><button class="tab" data-module="finance">การเงิน & ค่าสนาม</button><button class="tab" data-module="weeklypoints">WICTORz Weekly Points</button>
+</div>
+<section id="module-dashboard" class="platform-module">
+<div class="hero panel"><div><div class="brand">THE OFFICIAL SEASON HUB</div><h2 style="font-size:clamp(25px,4vw,42px);margin:8px 0">ONE LEAGUE. ONE GLORY.</h2><p class="sub">ศูนย์กลางจัดการ SATIT GLORY League 2026 Season 2 ครบทั้งโปรแกรม ตารางคะแนน สถิติ วินัย และการเงิน</p><p class="sub" style="color:var(--green)">นำเข้าข้อมูลจาก LINE UP 3.docx แล้ว: ผลการแข่งขัน MW1–MW6, โปรแกรม MW7–MW11 และรายชื่อนักเตะที่อ่านข้อความได้</p></div><span class="hero-badge">SEASON 02</span></div><div id="dashboardCards" class="grid"></div>
+<div class="grid2"><div class="panel"><div class="section-title"><h2>ตารางคะแนน 5 อันดับแรก</h2><button onclick="switchModule('standings')">ดูตารางเต็ม →</button></div><div id="dashStandings"></div></div><div class="panel"><div class="section-title"><h2>แมตช์ที่ยังไม่ลงผล</h2><button onclick="switchModule('fixtures')">จัดการโปรแกรม →</button></div><div id="dashFixtures"></div></div></div><div class="panel"><h2>สถานะข้อมูลระบบ</h2><div id="systemStatus" class="mutedbox"></div></div></section>
+<section id="module-fixtures" class="platform-module hidden"><div class="panel"><div class="section-title"><h2>โปรแกรม & ผลการแข่งขัน</h2><span class="pill">12 ทีม · 11 สัปดาห์ · 66 นัด</span></div><div class="grid3"><div class="field"><label>เลือกสัปดาห์</label><select id="fixtureWeek"></select></div><div class="field"><label>ค้นหาทีม</label><input id="fixtureSearch" placeholder="พิมพ์ชื่อทีม..."></div><div class="field"><label>ตัวกรอง</label><select id="fixtureFilter"><option value="all">ทุกสถานะ</option><option value="played">ลงผลแล้ว</option><option value="pending">ยังไม่ลงผล</option></select></div></div><div class="actions"><button class="primary" onclick="saveFixtureResults()">บันทึกผลการแข่งขัน</button><button onclick="clearWeekResults()">ล้างผลสัปดาห์นี้</button><button onclick="window.print()">พิมพ์โปรแกรม</button></div><div id="fixtureList" class="tablewrap" style="margin-top:14px"></div></div><div class="panel"><h2>จัดการโปรแกรมแข่งขัน</h2><p class="sub">โปรแกรมตั้งต้นสร้างแบบพบกันหมด 11 สัปดาห์ สามารถสร้างใหม่ได้ แต่การสร้างใหม่จะล้างผลที่บันทึกไว้</p><div class="actions"><button onclick="regenerateFixtures()">สร้างโปรแกรมพบกันหมดใหม่</button></div></div></section>
+<section id="module-standings" class="platform-module hidden"><div class="panel"><div class="section-title"><h2>LEAGUE TABLE</h2><span class="pill">ชนะ 3 · เสมอ 1 · แพ้ 0</span></div><div class="mutedbox">เรียงตามคะแนน → ผลต่างประตู → ประตูได้ · ฟอร์ม 5 นัดล่าสุดแสดง W/D/L และลูกศรเทียบอันดับปัจจุบันกับอันดับก่อนหน้าเมื่อมีข้อมูล</div><div id="standingsTable" class="tablewrap" style="margin-top:14px"></div></div><div class="panel"><h2>ตั้งค่าทีมในลีก</h2><p class="sub">แก้ชื่อทีมได้ ระบบจะเก็บข้อมูลและโปรแกรมที่อ้างอิงทีมตามรหัสทีม</p><div id="teamEditor" class="grid3"></div><div class="actions"><button class="primary" onclick="saveTeamNames()">บันทึกชื่อทีม</button></div></div></section>
+<section id="module-stats" class="platform-module hidden"><div class="grid2"><div class="panel"><h2>GOLDEN BOOT · ดาวซัลโว</h2><div id="scorersTable"></div></div><div class="panel"><h2>PLAYMAKER · แอสซิสต์</h2><div id="assistsTable"></div></div></div><div class="panel"><h2>เพิ่มสถิติผู้เล่นจากแมตช์</h2><div class="grid"><div class="field"><label>สัปดาห์</label><select id="statWeek"></select></div><div class="field"><label>ทีม</label><select id="statTeam"></select></div><div class="field"><label>ชื่อผู้เล่น</label><input id="statPlayer" placeholder="ชื่อผู้เล่น"></div><div class="field"><label>คู่แข่ง</label><input id="statOpponent" placeholder="ชื่อทีมคู่แข่ง" readonly></div><div class="field"><label>ประตู (G)</label><input id="statGoals" type="number" min="0" step="1" value="0"></div><div class="field"><label>แอสซิสต์ (A)</label><input id="statAssists" type="number" min="0" step="1" value="0"></div><div class="field"><label>ใบเหลือง</label><input id="statYellow" type="number" min="0" step="1" value="0"></div><div class="field"><label>ใบแดง</label><input id="statRed" type="number" min="0" step="1" value="0"></div></div><div class="actions"><button class="primary" onclick="addPlayerStat()">บันทึกสถิติผู้เล่น</button></div><div id="playerStatsTable" style="margin-top:14px"></div></div></section>
+<section id="module-players" class="platform-module hidden"><div class="panel"><div class="section-title"><h2>ทะเบียนนักเตะ</h2><span class="pill">Player Registry</span></div><div class="grid3"><div class="field"><label>ชื่อผู้เล่น</label><input id="newPlayerName" placeholder="ชื่อ-นามสกุล"></div><div class="field"><label>ทีม</label><select id="newPlayerTeam"></select></div><div class="field"><label>ตำแหน่ง</label><select id="newPlayerPosition"><option>ผู้รักษาประตู</option><option>กองหลัง</option><option>ริมเส้น</option><option>กองกลาง</option><option>กองหน้า</option><option>ไม่ระบุ</option></select></div></div><div class="actions"><button class="primary" onclick="addRegistryPlayer()">+ เพิ่มนักเตะ</button><input id="playerSearch" placeholder="ค้นหานักเตะ..." style="max-width:260px"></div><div id="registryTable" style="margin-top:14px"></div></div></section>
+<section id="module-discipline" class="platform-module hidden"><div class="panel"><div class="section-title"><h2>DISCIPLINARY RECORD</h2><span class="pill">ใบเหลือง 50 บาท · ใบแดง 150 บาท</span></div><div class="mutedbox">ค่าปรับคำนวณจากจำนวนใบที่บันทึก: ใบเหลือง 50 บาท/ใบ และใบแดง 150 บาท/ใบ สามารถเปลี่ยนสถานะการชำระได้</div><div id="disciplineTable" style="margin-top:14px"></div></div></section>
+<section id="module-finance" class="platform-module hidden"><div class="grid3" id="financeSummary"></div><div class="panel"><div class="section-title"><h2>ค่าสนามรายสัปดาห์</h2><span class="pill">750 บาท / ทีม / สัปดาห์</span></div><div class="grid3"><div class="field"><label>สัปดาห์</label><select id="financeWeek"></select></div><div class="field"><label>ทีม</label><select id="financeTeam"></select></div><div class="field"><label>สถานะการชำระ</label><select id="financeStatus"><option value="ยัง">ยังไม่จ่าย</option><option value="จ่ายแล้ว">จ่ายแล้ว</option><option value="Slip">ส่งสลิปแล้ว</option><option value="ไม่ทราบ">ไม่ทราบ</option></select></div></div><div class="actions"><button class="primary" onclick="updateFieldPayment()">บันทึกสถานะค่าสนาม</button></div><div id="fieldPaymentTable" style="margin-top:14px"></div></div><div class="panel"><h2>รายรับเครื่องดื่ม / ขนม</h2><div class="grid3"><div class="field"><label>สัปดาห์</label><select id="drinkWeek"></select></div><div class="field"><label>ทีม/ผู้ซื้อ</label><input id="drinkBuyer" placeholder="เช่น ทีมท่าแพ FC"></div><div class="field"><label>สินค้า</label><select id="drinkProduct"><option value="น้ำเปล่า">น้ำเปล่า · 5 บาท</option><option value="Sponsor/โคล่า/Oishi">Sponsor / โคล่า / Oishi · 17 บาท</option><option value="Sponsor เล็ก">Sponsor เล็ก · 15 บาท</option><option value="Sponsor Go ใหญ่">Sponsor Go ใหญ่ · 20 บาท</option><option value="น้ำมะพร้าว">น้ำมะพร้าว · 12 บาท</option></select></div><div class="field"><label>จำนวน</label><input id="drinkQty" type="number" min="1" step="1" value="1"></div><div class="field"><label>ราคาต่อหน่วย (แก้ไขได้)</label><input id="drinkPrice" type="number" min="0" step="1" value="5"></div><div class="field"><label>สถานะรับเงิน</label><select id="drinkPaid"><option value="จ่ายแล้ว">จ่ายแล้ว</option><option value="ค้างชำระ">ค้างชำระ</option></select></div></div><div class="actions"><button class="primary" onclick="addDrinkSale()">+ เพิ่มรายการขาย</button></div><div id="drinkTable" style="margin-top:14px"></div></div><div class="panel"><h2>บัญชีรายรับ-รายจ่ายอื่น</h2><div class="grid3"><div class="field"><label>รายการ</label><input id="ledgerLabel" placeholder="เช่น ค่ากรรมการ / ค่าของรางวัล"></div><div class="field"><label>ประเภท</label><select id="ledgerType"><option value="income">รายรับ</option><option value="expense">รายจ่าย</option></select></div><div class="field"><label>จำนวนเงิน (บาท)</label><input id="ledgerAmount" type="number" min="0" step="1" value="0"></div></div><div class="actions"><button class="primary" onclick="addLedgerEntry()">บันทึกรายการ</button></div><div id="ledgerTable" style="margin-top:14px"></div></div></section>
+<section id="module-weeklypoints" class="platform-module hidden"><div class="panel"><h2>WICTORz × SATIT GLORY WEEKLY POINTS</h2><p class="sub">ประเมินผู้เล่นรายสัปดาห์ · 7 Nominee Slots · Normal Player สูงสุด 20 คน · คะแนนสดและบันทึกในเครื่อง</p></div>
+<div class="tabs" id="weeklyTabs"><button class="tab active" data-tab="nominees">7 Nominee Slots</button><button class="tab" data-tab="normal">Normal Player (20)</button><button class="tab" data-tab="rules">Rules & Scoreboard</button></div>
+<section id="nominees">
+<div class="panel">
+<div class="section-title"><h2>Match & competition information</h2><span class="pill">Score is calculated live</span></div>
+<div class="grid">
+<div class="field"><label>รายการ / Week</label><input id="competition" placeholder="เช่น SATIT GLORY · WEEK 04"></div>
+<div class="field"><label>วันที่แข่งขัน</label><input id="matchdate" type="date"></div>
+<div class="field"><label>คู่แข่งขัน / Match</label><input id="matchname" placeholder="ทีม A vs ทีม B"></div>
+<div class="field"><label>หมายเหตุผู้จัด</label><input id="matchnote" placeholder="สนาม / รอบ / หมายเหตุ"></div>
+</div>
+<div class="mutedbox" style="margin-top:12px">วิธีใช้: กรอกข้อมูลผู้เล่น เลือกผลทีมและบริบทเกม แล้วติ๊กเฉพาะผลงานที่เห็นชัดเจน ระบบคิดคะแนนให้ทันที คะแนนสถิติที่ผู้จดบันทึกกรอกและคะแนนประเมินด้วยสายตาจะแยกหมวดกัน</div>
+</div>
+<div id="nomineeList"></div>
+<div class="panel">
+<div class="section-title"><h2>Winner of Player of the Week</h2><span class="pill">เลือกหลังประเมินครบ</span></div>
+<div class="grid3">
+<div class="field"><label>ผู้ชนะ POTW (+3 pt)</label><select id="winnerSelect"><option value="">— ยังไม่เลือก —</option></select></div>
+<div class="field"><label>รองชนะ POTW (+0.75 pt ก่อนปัดผลสุดท้าย)</label><select id="runnerSelect"><option value="">— ยังไม่เลือก —</option></select></div>
+<div class="field"><label>รูปแบบทีมยอดเยี่ยม</label><select id="teamSize"><option value="7">Starting Team 7 คน</option><option value="8">ขยายเป็น 8 คน</option><option value="9">ขยายเป็น 9 คน</option></select></div>
+</div>
+<div id="winnerSummary" class="mutedbox" style="margin-top:12px">เลือกผู้ชนะและรองชนะเพื่อเพิ่มโบนัสหลังคำนวณคะแนนผู้เล่น</div>
+</div>
+</section>
+<section id="normal" class="hidden">
+<div class="panel"><div class="section-title"><h2>Normal Player list</h2><span class="pill">สูงสุด 20 รายชื่อ</span></div>
+<div class="mutedbox">กรอกผู้เล่นที่ไม่ติด 7 ช่อง Nominee โดยใช้รหัสสถิติ เช่น 1G, 1GF, 1A, 1BA, 1S, 1PS, 1Y, 1R สามารถกรอกหลายรายการคั่นด้วยช่องว่างหรือจุลภาค ระบบจะคำนวณคะแนนจากช่องแยกด้านล่างและรหัสสถิติที่รู้จัก</div>
+<div class="actions"><button class="primary" onclick="addNormal()">+ เพิ่มผู้เล่น</button><button onclick="clearNormal()">ล้างรายชื่อ Normal Player</button></div>
+<div id="normalList" style="margin-top:14px"></div></div>
+</section>
+<section id="rules" class="hidden">
+<div class="panel"><h2>กติกาคะแนนที่ระบบใช้</h2>
+<div class="grid2">
+<div><h3>Appearance & Match result</h3><ul><li>ลงเล่น / Appearance: +3</li><li>ชนะปกติ: +1</li><li>ชนะผลต่าง 3 ประตู: โบนัสชนะ +2 แทน +1</li><li>ชนะผลต่าง 4 ประตู: โบนัส +2 สำหรับ Nominee; Normal Player ใช้ +4 เฉพาะเมื่อชนะผลต่างมากกว่า 4 ตามที่ระบุ</li><li>เสมอ: +0.5</li><li>ทีมด้อยกว่า: ชนะ +2.5 หรือเสมอ +1.5 แทนโบนัสผลปกติ</li><li>ทีมเสียเปรียบจำนวนผู้เล่น: ชนะ +2.5 หรือเสมอ +1.5 แทนโบนัสผลปกติ</li></ul></div>
+<div><h3>บริบทเหนือกว่า / ด้อยกว่า</h3><ul><li>ทีมเหนือกว่าและชนะ: -2.5 และ -0.75 ต่อประตูที่ผู้เล่นทำ, -0.33 ต่อแอสซิสต์ของผู้เล่น</li><li>ทีมด้อยกว่า: +1 ต่อประตู และ +0.75 ต่อแอสซิสต์ของผู้เล่น</li><li>โบนัสทีมและดีบัฟบริบทคำนวณแยกกันตามช่องที่เลือก</li><li>ถ้าไม่เลือกบริบท ให้ถือเป็นเกมปกติ</li></ul></div>
+<div><h3>ประตู / แอสซิสต์</h3><ul><li>ประตู: กองหน้า +3, ริมเส้น +3.5, กองกลาง +4, กองหลัง +5, GK +6</li><li>ฟรีคิก: +0.75 ต่อประตูฟรีคิก (ในระบบจะคิดตามจำนวนที่กรอก)</li><li>ประตู/แอสซิสต์ช่วงทดเวลา: +0.5 ต่อรายการ</li><li>ประตู/แอสซิสต์สุดท้ายที่ทำให้ทีมเสมอหรือชนะ: +1</li><li>ถ้าเป็นทั้งทดเวลาและ decisive: โบนัสรวม +1.25 แทนการบวกซ้ำ</li><li>แอสซิสต์ปกติ +2.5; Gold assist +3.5 แทนแอสซิสต์ปกติ</li></ul></div>
+<div><h3>ความละเอียดคะแนน</h3><ul><li>คะแนนดิบคำนวณเต็มความละเอียดเพื่อไม่ทำข้อมูลหาย</li><li>Total Final ปัดเป็นขั้น 0.5 ที่ใกล้ที่สุด ณ ตอนสรุปเท่านั้น</li><li>โบนัส +0.75, -0.33 และคะแนนแปลงเรตติ้งอาจมีทศนิยมระหว่างทางได้ แต่จะไม่แสดงเป็น Total Final</li><li>ถ้าคะแนนเสมอกัน ระบบแสดงคะแนนเท่ากัน ไม่ใช้เกณฑ์ตัดสินแชมป์อัตโนมัติ</li></ul></div>
+</div>
+<div class="mutedbox">หมายเหตุเรื่องกติกาที่ต้องยืนยัน: (1) BIG Win ในคำอธิบายมีทั้ง “ผลต่าง 3 ประตู” และ “มากกว่า 4 ประตูขึ้นไป” จึงตั้งค่าให้ผลต่าง 3–4 = +2 สำหรับ Nominee และผลต่าง 5+ = +4 เฉพาะ Normal Player (2) โบนัสคลีนชีตใช้ตามตัวเลขที่ให้มา: Defender +2, Winger +1, Midfielder +0.25; อย่างไรก็ตามคะแนนนี้จะถูกรวมและปัด Total Final เป็น .0/.5 (3) คะแนนแปลงเรตติ้ง 4–10/10 มีบางค่าที่ขาดหรือไม่เป็นเส้นตรง จึงใช้จุดอ้างอิงที่ระบุแล้วประมาณค่าเฉพาะค่าที่ขาด</div>
+</div>
+<div class="panel"><h2>Position-specific criteria</h2><div class="grid2">
+<div><h3>Defender</h3><p>ยืนตำแหน่ง +0.5 · เข้าปะทะ/ตัดบอล +0.5 · ชนะกลางอากาศ +0.5 · ประกบตัวดี +0.5 หรือประกบสุดยอด +1 (เลือกอย่างใดอย่างหนึ่ง) · ไม่มีข้อผิดพลาด +1.5 · เคลียร์บนเส้น +1 · หยุดหลุดเดี่ยว +1</p></div>
+<div><h3>Winger / Fullback</h3><p>ชนะ 1v1 บ้าง +0.5 หรือชนะทั้งหมด +1 · เสียบอลน้อย +0.5 หรือไม่เสียบอล +1 · พาบอลเข้าพื้นที่อันตราย +0.5 · สร้างโอกาส +0.5 หรือระดับสูง +1 · ปั่นป่วนแนวรับ +2 · เคลียร์บอล/หยุดหลุดเดี่ยว +0.5</p></div>
+<div><h3>Midfielder</h3><p>จ่ายบอลแม่น +0.5 หรือไม่เสียบอล +1 · ต่อบอลภาคพื้น +1 · ช่วยรับ +0.5 · สร้างสรรค์ +0.5 · แก้เพรส +0.5 · ตัดบอลแล้วสวนกลับนำไปสู่ประตู +0.5 · คุมเกมเหนือชั้น +2 · โบนัสแอสซิสต์กองกลาง +1 และทุก 2 แอสซิสต์เพิ่ม +0.5</p></div>
+<div><h3>Striker / Goalkeeper</h3><p>Striker: พักบอล +1 หรือยอดเยี่ยม +1.75 · หาพื้นที่จบสกอร์ +1 · เชื่อมเกม +0.5 · โบนัสทุก 2 ประตูตามตารางไม่ทบซ้ำ (2G +1, 3G +2, 4G +3, 5G +4, 6G+ +5). GK: Super save +1.25, super big save +2, penalty save +3.25, decisive penalty save +4.25; เช็กลิสต์ตามหัวข้อ</p></div>
+</div></div>
+</section>
+</section>
+<div class="footer">ข้อมูลจะอยู่ในเบราว์เซอร์ที่เปิดไฟล์นี้ ไม่ได้ส่งขึ้นเซิร์ฟเวอร์โดยอัตโนมัติ ควร Export JSON สำรองข้อมูลหลังกรอกแต่ละสัปดาห์</div>
+</main>
+<script>
+const positions=[["GK","ผู้รักษาประตู"],["DEF","กองหลัง"],["WING","ริมเส้น"],["MID","กองกลาง"],["FWD","กองหน้า"]];
+const criteria={
+DEF:[
+["d_pos","ยืนตำแหน่งหรืออ่านเกมได้ดี",.5],
+["d_tackle","เข้าปะทะหรือตัดบอลแม่นยำ",.5],
+["d_air","ชนะดวลลูกกลางอากาศดีเยี่ยม",.5],
+["d_mark","ประกบตัวได้ดี",.5],
+["d_markelite","ประกบตัวสุดยอดเกือบทุกครั้ง (แทนข้อประกบตัวปกติ)",1],
+["d_clean","ไม่มีข้อผิดพลาดสำคัญเลย",1.5],
+["d_line","เคลียร์บอลออกจากเส้นประตู",1],
+["d_1v1","สกัด/ทำลายจังหวะหลุดเดี่ยว",1]
+],
+WING:[
+["w_dribble","เลี้ยงผ่าน/ชนะ 1 ต่อ 1 ได้บ้าง",.5],
+["w_dribbleall","เลี้ยงผ่าน/ชนะ 1 ต่อ 1 ได้แทบทั้งหมด (แทนข้อปกติ)",1],
+["w_loss","เสียบอลน้อย / รักษาบอลได้ดี",.5],
+["w_noloss","ไม่เสียบอลเลย (แทนข้อเสียบอลน้อย)",1],
+["w_danger","พาบอลเข้าสู่พื้นที่อันตราย",.5],
+["w_chance","สร้างโอกาสยิง/จ่ายบอลดีเข้าเขตอันตราย",.5],
+["w_chanceelite","สร้างโอกาสได้มาก/โดดเด่น (แทนข้อสร้างโอกาสปกติ)",1],
+["w_destroy","ปั่นป่วนทำลายแนวรับอย่างชัดเจน",2],
+["w_clear","ช่วยสกัดลูกหลุดเดี่ยว/เคลียร์บอลบนเส้น",.5]
+],
+MID:[
+["m_pass","จ่ายบอลแน่นอนและแม่นยำ",.5],
+["m_pass100","จ่ายบอลแม่นยำแทบไม่เสียบอล (แทนข้อปกติ)",1],
+["m_ground","ต่อบอลภาคพื้น ช่วยให้ทีมขึ้นเกม ไม่โยนจากแนวรับโดยไม่จำเป็น",1],
+["m_defend","ช่วยเกมรับ/วิ่งไล่บอลอย่างมีประสิทธิภาพ",.5],
+["m_vision","วิชั่นและสร้างสรรค์โอกาส",.5],
+["m_press","แก้เพรสซิ่งและเล่นภายใต้แรงกดดันได้ดี",.5],
+["m_counter","ตัดบอลแล้วพาสวนกลับจนเกิดประตู/โอกาสชัด",.5],
+["m_control","คุมจังหวะและเอาชนะแดนกลางอย่างเหนือชั้น",2]
+],
+FWD:[
+["f_hold","พักบอลและรักษาการครองบอลได้ดี",1],
+["f_holdelite","พักบอลยอดเยี่ยม เก็บบอลได้แทบทุกลูก (แทนข้อปกติ)",1.75],
+["f_space","หาพื้นที่/โอกาสจบสกอร์ได้ดี",1],
+["f_link","เชื่อมเกมหรือสร้างสรรค์โอกาสให้เพื่อน",.5]
+],
+GK:[
+["gk_saves4","เซฟรวมอย่างน้อย 4 ครั้ง",.5],
+["gk_saves8","เซฟรวมมากกว่า 8 ครั้ง (แทนข้อ 4 ครั้ง)",1],
+["gk_claim","ตัดบอล/รับลูกกลางอากาศได้ดี",.5],
+["gk_claimelite","ตัดบอล/รับลูกกลางอากาศได้ยอดเยี่ยม (แทนข้อปกติ)",1],
+["gk_position","ยืนตำแหน่งและปิดมุมดี",.5],
+["gk_positionelite","ยืนตำแหน่งยอดเยี่ยมแทบทุกครั้ง (แทนข้อปกติ)",1],
+["gk_errorfree","ไม่มีความผิดพลาดสำคัญ",1.5],
+["gk_distribution","ออกบอล/เปิดเกมนำไปสู่ประตูหรือจังหวะสำคัญ",1]
+]};
+const defaults=()=>({name:"",team:"",rank:"",scoreFor:0,scoreAgainst:0,result:"W",position:"MID",context:"NORMAL",played:true,goals:0,freeGoals:0,lateGoals:0,decisiveGoals:0,assists:0,goldAssists:0,lateAssists:0,decisiveAssists:0,superSaves:0,bigSaves:0,penaltySaves:0,decisivePenalties:0,rating:"",checks:{},yellow:0,red:0,fight:false,bye:"",special:0});
+let nominees=Array.from({length:7},()=>defaults()), normals=[];
+function esc(s){return String(s??"").replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function num(v){let n=Number(v);return Number.isFinite(n)?n:0}
+function fmt(n){return (Math.round((n+Number.EPSILON)*100)/100).toFixed(2).replace(/\.00$/,'')}
+function finalRound(n){return Math.round((n+Number.EPSILON)*2)/2}
+function ratingPoints(v){
+ if(v===""||v==null)return 0; const r=Number(v);
+ const anchors=[[4,0],[7.4,4],[7.5,4.25],[7.6,4.5],[7.7,4.75],[7.8,5],[8,5.5],[8.1,5.75],[8.2,6],[8.3,6.25],[8.5,6.5],[8.6,6.75],[8.7,7],[9,7.75],[9.2,7.75],[9.4,8],[9.5,8.25],[10,8.5]];
+ if(r<=4)return 0;if(r>=10)return 8.5;
+ for(let i=0;i<anchors.length-1;i++){let [x,a]=anchors[i],[y,b]=anchors[i+1];if(r===x)return a;if(r>x&&r<y)return a+(b-a)*(r-x)/(y-x)}
+ return anchors[anchors.length-1][1];
+}
+function positionLabel(p){return (positions.find(x=>x[0]===p)||[])[1]||p}
+function getCheckScore(p){
+ let c=p.checks||{},s=0;
+ const add=(k,w)=>{if(c[k])s+=w};
+ if(p.position==="DEF"){
+  add("d_pos",.5);add("d_tackle",.5);add("d_air",.5);
+  add(c.d_markelite?"__none":"d_mark",.5);add("d_markelite",1);add("d_clean",1.5);add("d_line",1);add("d_1v1",1);
+ }else if(p.position==="WING"){
+  add(c.w_dribbleall?"__none":"w_dribble",.5);add("w_dribbleall",1);
+  add(c.w_noloss?"__none":"w_loss",.5);add("w_noloss",1);add("w_danger",.5);
+  add(c.w_chanceelite?"__none":"w_chance",.5);add("w_chanceelite",1);add("w_destroy",2);add("w_clear",.5);
+ }else if(p.position==="MID"){
+  add(c.m_pass100?"__none":"m_pass",.5);add("m_pass100",1);add("m_ground",1);add("m_defend",.5);add("m_vision",.5);add("m_press",.5);add("m_counter",.5);add("m_control",2);
+ }else if(p.position==="FWD"){
+  add(c.f_holdelite?"__none":"f_hold",1);add("f_holdelite",1.75);add("f_space",1);add("f_link",.5);
+ }else{
+  add(c.gk_saves8?"__none":"gk_saves4",.5);add("gk_saves8",1);
+  add(c.gk_claimelite?"__none":"gk_claim",.5);add("gk_claimelite",1);
+  add(c.gk_positionelite?"__none":"gk_position",.5);add("gk_positionelite",1);add("gk_errorfree",1.5);add("gk_distribution",1);
+ }
+ return s;
+}
+function teamBonus(p,isNormal=false){
+ if(!p.played)return 0;
+ let diff=num(p.scoreFor)-num(p.scoreAgainst), res=p.result;
+ if(res==="D")return (p.context==="UNDERDOG"||p.context==="SHORT")?1.5:.5;
+ if(res!=="W")return 0;
+ if(p.context==="UNDERDOG"||p.context==="SHORT")return 2.5;
+ if(diff>=3)return isNormal&&diff>4?4:2;
+ return 1;
+}
+function scoreParts(p,isNormal=false){
+ const goals=num(p.goals), assists=num(p.assists), gold=num(p.goldAssists);
+ const baseAppearance=p.played?3:0;
+ const win=teamBonus(p,isNormal);
+ let goalPts=goals*({FWD:3,WING:3.5,MID:4,DEF:5,GK:6}[p.position]||3);
+ goalPts+=num(p.freeGoals)*.75;
+ const decisiveLateGoals=Math.min(num(p.lateGoals),num(p.decisiveGoals));
+ const ordinaryLateGoals=Math.max(0,num(p.lateGoals)-decisiveLateGoals);
+ goalPts+=decisiveLateGoals*1.25+ordinaryLateGoals*.5;
+ goalPts+=Math.max(0,num(p.decisiveGoals)-decisiveLateGoals)*1;
+ let assistPts=(assists-gold)*2.5+gold*3.5;
+ const decisiveLateAssists=Math.min(num(p.lateAssists),num(p.decisiveAssists));
+ const ordinaryLateAssists=Math.max(0,num(p.lateAssists)-decisiveLateAssists);
+ assistPts+=decisiveLateAssists*1.25+ordinaryLateAssists*.5;
+ assistPts+=Math.max(0,num(p.decisiveAssists)-decisiveLateAssists)*1;
+ let keeperPts=0;
+ if(p.position==="GK")keeperPts=num(p.superSaves)*1.25+num(p.bigSaves)*2+num(p.penaltySaves)*3.25+num(p.decisivePenalties)*4.25;
+ let clean=0,dedicated=0;
+ const diff=num(p.scoreFor)-num(p.scoreAgainst);
+ if(p.result==="W"&&num(p.scoreAgainst)===0){
+  if(p.position==="DEF")clean=2;
+  if(p.position==="WING")clean=1;
+  if(p.position==="MID")clean=.25;
+ }
+ if(p.position==="MID"){
+  dedicated+=assists*1;
+  dedicated+=Math.floor(assists/2)*.5;
+ }
+ if(p.position==="FWD"){
+  const table={0:0,1:0,2:1,3:2,4:3,5:4};dedicated+=(goals>=6?5:(table[goals]||0));
+  if(goals>=1&&num(p.decisiveGoals)>0)dedicated+=.5;
+  if(goals===0&&assists>0&&num(p.decisiveAssists)>0)dedicated+=.5;
+ }
+ // Automatic no-stat impact bonuses from user's spec
+ if(p.position==="DEF"){
+  if(goals===0&&assists===0&&num(p.freeGoals)===0&&num(p.decisiveGoals)===0&&num(p.decisiveAssists)===0&&!(p.checks||{}).d_line&&!(p.checks||{}).d_1v1&&clean===0)dedicated+=1;
+  else if(goals+assists+((p.checks||{}).d_line?1:0)+((p.checks||{}).d_1v1?1:0)+(clean>0?1:0)<=2)dedicated+=.5;
+ }
+ if(p.position==="MID"&&goals===0&&assists===0)dedicated+=1.5;
+ else if(p.position==="MID"&&goals+assists<=1)dedicated+=1;
+ if(p.position==="WING"&&goals===0&&assists===0)dedicated+=1.5;
+ else if(p.position==="WING"&&goals+assists<=1)dedicated+=1;
+ if(p.position==="FWD"&&goals===0&&assists===0&&clean===0)dedicated+=1.5;
+ else if(p.position==="FWD"&&goals+assists<=1)dedicated+=1;
+ let contextAdj=0;
+ if(p.context==="UNDERDOG"){contextAdj+=goals*1+assists*.75}
+ if(p.context==="SUPERIOR"&&p.result==="W"&&diff>=1){contextAdj-=2.5+goals*.75+assists*.33}
+ let negative=0;
+ if(num(p.yellow)>=2)negative-=2.5;else negative-=num(p.yellow)*1;
+ negative-=num(p.red)*5;
+ if(p.fight&&num(p.red)>0)negative-=5;
+ if(p.bye==="partial")negative-=4;if(p.bye==="absent")negative-=8;
+ if(num(p.yellow)>0&&(!isNormal)&&(p.isWinner||p.isRunner))negative+=num(p.yellow)*.5;
+ const rating=ratingPoints(p.rating);
+ const checklist=getCheckScore(p);
+ const extra=num(p.special||0);
+ const preFinal=baseAppearance+win+goalPts+assistPts+keeperPts+clean+dedicated+contextAdj+negative+rating+checklist+extra+(p.award==="winner"?3:p.award==="runner"?.75:0);
+ return {baseAppearance,win,goalPts,assistPts,keeperPts,clean,dedicated,contextAdj,negative,rating,checklist,extra,award:p.award==="winner"?3:p.award==="runner"?.75:0,preFinal,final:finalRound(preFinal)};
+}
+function field(label,key,type="number",opts={}){
+ const val=opts.value??"";
+ if(type==="select")return `<div class="field"><label>${label}</label><select data-key="${key}">${opts.options.map(o=>`<option value="${o[0]}" ${String(o[0])===String(val)?"selected":""}>${o[1]}</option>`).join("")}</select></div>`;
+ return `<div class="field"><label>${label}</label><input data-key="${key}" type="${type}" value="${esc(val)}" ${opts.min!==undefined?`min="${opts.min}"`:""} ${opts.max!==undefined?`max="${opts.max}"`:""} ${opts.step?`step="${opts.step}"`:""} placeholder="${esc(opts.placeholder||"")}"></div>`;
+}
+function renderCriteria(p,i){
+ let list=criteria[p.position]||[];
+ return `<div class="section"><h3>Position impact checklist · ${positionLabel(p.position)}</h3><div class="checkgrid">${list.map(([k,label,w])=>`<label class="check"><input type="checkbox" data-check="${k}" ${p.checks[k]?"checked":""}><span>${label}</span><b>+${w}</b></label>`).join("")}</div>
+ ${p.position==="DEF"?`<div class="grid2" style="margin-top:12px"><div class="field"><label>คลีนชีต</label><input value="${p.result==="W"&&num(p.scoreAgainst)===0?"+2.0 อัตโนมัติ":"0.0 (ไม่มีเงื่อนไข)"}" disabled></div><div class="field"><label>คำอธิบายหลักฐาน</label><input data-key="evidence" value="${esc(p.evidence||"")}" placeholder="เช่น ตัดบอล 3 ครั้ง บล็อกลูกยิงสำคัญ"></div></div>`:""}
+ ${p.position==="MID"?`<div class="mutedbox" style="margin-top:10px">โบนัสแอสซิสต์กองกลาง: +1 ต่อแอสซิสต์ และ +0.5 ต่อทุก 2 แอสซิสต์ (รวมในระบบแล้ว)</div>`:""}
+ ${p.position==="FWD"?`<div class="mutedbox" style="margin-top:10px">โบนัสจำนวนประตูแบบไม่ทบซ้ำ: 2G +1 · 3G +2 · 4G +3 · 5G +4 · 6G ขึ้นไป +5</div>`:""}
+ ${p.position==="GK"?`<div class="grid" style="margin-top:12px">${field("Super saves (ครั้ง)","superSaves","number",{value:p.superSaves,min:0,step:1})}${field("Super big saves (ครั้ง)","bigSaves","number",{value:p.bigSaves,min:0,step:1})}${field("เซฟจุดโทษ (ครั้ง)","penaltySaves","number",{value:p.penaltySaves,min:0,step:1})}${field("เซฟจุดโทษตัดสินเกม (ครั้ง)","decisivePenalties","number",{value:p.decisivePenalties,min:0,step:1})}</div>`:""}
+ </div>`;
+}
+function renderNominee(p,i){
+ let s=scoreParts(p);
+ return `<article class="nominee" data-index="${i}"><div class="nom-head"><strong>${i+1}. ${esc(p.name||"Nominee "+(i+1))}</strong><span class="pill">${positionLabel(p.position)} · Total Final ${fmt(s.final)} pt</span></div><div class="nom-body">
+ <div class="grid">
+ ${field("ชื่อผู้เล่น","name","text",{value:p.name,placeholder:"ชื่อ-นามสกุล"})}
+ ${field("ทีม","team","text",{value:p.team,placeholder:"ชื่อทีม"})}
+ ${field("อันดับทีม","rank","text",{value:p.rank,placeholder:"เช่น อันดับ 1 / กลางตาราง"})}
+ ${field("ตำแหน่ง","position","select",{value:p.position,options:positions})}
+ ${field("ผลการแข่งขัน","result","select",{value:p.result,options:[["W","ชนะ"],["D","เสมอ"],["L","แพ้"]]})}
+ ${field("ประตูทีม","scoreFor","number",{value:p.scoreFor,min:0,step:1})}
+ ${field("ประตูคู่แข่ง","scoreAgainst","number",{value:p.scoreAgainst,min:0,step:1})}
+ ${field("บริบทเกม","context","select",{value:p.context,options:[["NORMAL","เกมปกติ"],["SHORT","ทีมเสียเปรียบจำนวนผู้เล่น (5–6 คน)"],["SUPERIOR","ทีมเหนือกว่า / พบทีมท้ายตาราง"],["UNDERDOG","ทีมด้อยกว่า"]]})}
+ </div>
+ <div class="section"><h3>สถิติการลงเล่นและเกมรุก</h3><div class="grid">
+ <label class="check"><input type="checkbox" data-key="played" ${p.played?"checked":""}><span>ลงเล่นจริง (Appearance +3)</span></label>
+ ${field("ประตู (G)","goals","number",{value:p.goals,min:0,step:1})}
+ ${field("ประตูฟรีคิก (GF)","freeGoals","number",{value:p.freeGoals,min:0,step:1})}
+ ${field("ประตูช่วงทดเวลา","lateGoals","number",{value:p.lateGoals,min:0,step:1})}
+ ${field("ประตู decisive (เสมอ/ชนะ)","decisiveGoals","number",{value:p.decisiveGoals,min:0,step:1})}
+ ${field("แอสซิสต์รวม","assists","number",{value:p.assists,min:0,step:1})}
+ ${field("Gold assists (นับรวมใน A)","goldAssists","number",{value:p.goldAssists,min:0,step:1})}
+ ${field("แอสซิสต์ช่วงทดเวลา","lateAssists","number",{value:p.lateAssists,min:0,step:1})}
+ ${field("แอสซิสต์ decisive (เสมอ/ชนะ)","decisiveAssists","number",{value:p.decisiveAssists,min:0,step:1})}
+ </div><div class="mutedbox" style="margin-top:10px">กรอกจำนวนประตู/แอสซิสต์พิเศษให้เป็นส่วนหนึ่งของยอดรวมด้วย เช่น 2 ประตู โดย 1 ลูกเป็นฟรีคิก ให้กรอก G=2, GF=1 หากมีประตูหรือแอสซิสต์ที่เป็นทั้ง decisive และช่วงทดเวลา ระบบคิดโบนัส +1.25 แทน +1 และ +0.5 ซ้ำกัน</div></div>
+ ${renderCriteria(p,i)}
+ <div class="section"><h3>คะแนนผู้จัดและวินัย</h3><div class="grid">
+ ${field("คะแนนฟอร์มผู้จัด (4.0–10.0)","rating","select",{value:p.rating,options:[["","ไม่ระบุ"],...Array.from({length:61},(_,j)=>{let v=(4+j*.1).toFixed(1);return [v,v+"/10 → "+fmt(ratingPoints(v))+" pt"]})]})}
+ ${field("ใบเหลือง","yellow","number",{value:p.yellow,min:0,step:1})}
+ ${field("ใบแดงตรง","red","number",{value:p.red,min:0,step:1})}
+ ${field("แพ้บาย","bye","select",{value:p.bye||"",options:[["","ไม่มี"],["partial","แพ้บาย: คนไม่ครบ (-4)"],["absent","ไม่มาทั้งทีม (-8)"]]})}
+ <label class="check"><input type="checkbox" data-key="fight" ${p.fight?"checked":""}><span>ใบแดงตรงและวิวาท/ก่อความวุ่นวาย (-10 รวม)</span></label>
+ ${field("คะแนนพิเศษผู้จัด (ถ้ามี)","special","number",{value:p.special,min:0,step:.5})}
+ </div></div>
+ <div class="scorebox">
+ ${scoreCard("Appearance",s.baseAppearance)}${scoreCard("ผลทีม",s.win)}${scoreCard("ประตู",s.goalPts)}${scoreCard("แอสซิสต์",s.assistPts)}
+ ${scoreCard("GK bonus",s.keeperPts)}${scoreCard("คลีนชีต",s.clean)}${scoreCard("โบนัสตำแหน่ง",s.dedicated)}${scoreCard("บริบทเกม",s.contextAdj)}
+ ${scoreCard("ฟอร์มผู้จัด",s.rating)}${scoreCard("Checklist",s.checklist)}${scoreCard("วินัย",s.negative)}${scoreCard("POTW bonus",s.award)}
+ <div class="score final"><small>คะแนนดิบ (ตรวจสอบ)</small><strong>${fmt(s.preFinal)}</strong></div><div class="score final"><small>Total Final (ปัดขั้น 0.5)</small><strong>${fmt(s.final)}</strong><small>pt</small></div>
+ </div><div class="actions"><button onclick="clearNominee(${i})">ล้างช่องนี้</button><button onclick="duplicateNominee(${i})">คัดลอกข้อมูลผู้เล่น</button></div>
+ </div></article>`;
+}
+function scoreCard(name,val){return `<div class="score"><small>${name}</small><strong>${val>0?"+":""}${fmt(val)}</strong></div>`}
+function renderNominees(){
+ document.getElementById("nomineeList").innerHTML=nominees.map(renderNominee).join("");
+ bindCards();updateWinnerOptions();updateWinnerAwards();
+}
+function bindCards(){
+ document.querySelectorAll("#nomineeList article").forEach(card=>{
+  const i=+card.dataset.index;
+  card.querySelectorAll("[data-key]").forEach(el=>{
+   const key=el.dataset.key;const ev=el.type==="checkbox"?"change":"input";
+   el.addEventListener(ev,()=>{nominees[i][key]=el.type==="checkbox"?el.checked:(el.type==="number"?(el.value===""?0:num(el.value)):el.value);if(key==="position")nominees[i].checks={};renderNomineesPreserve();});
+  });
+  card.querySelectorAll("[data-check]").forEach(el=>el.addEventListener("change",()=>{nominees[i].checks[el.dataset.check]=el.checked;renderNomineesPreserve();}));
+ });
+}
+function renderNomineesPreserve(){
+ const active=document.activeElement, idx=active?.closest("article")?.dataset.index, key=active?.dataset.key||active?.dataset.check;
+ renderNominees();
+ if(idx!==undefined&&key){const card=document.querySelector(`article[data-index="${idx}"]`);const target=card?.querySelector(`[data-key="${key}"],[data-check="${key}"]`);if(target){target.focus();if(target.select)target.select();}}
+}
+function clearNominee(i){nominees[i]=defaults();renderNominees()}
+function duplicateNominee(i){let p=JSON.parse(JSON.stringify(nominees[i]));p.name="";p.checks={};nominees[(i+1)%7]=p;renderNominees()}
+function updateWinnerOptions(){
+ const opts=nominees.map((p,i)=>p.name?`<option value="${i}">${esc(p.name)} (${positionLabel(p.position)})</option>`:"").join("");
+ ["winnerSelect","runnerSelect"].forEach(id=>{let el=document.getElementById(id),old=el.value;el.innerHTML=`<option value="">— ยังไม่เลือก —</option>${opts}`;if([...el.options].some(o=>o.value===old))el.value=old;});
+}
+function updateWinnerAwards(){
+ let w=document.getElementById("winnerSelect").value,r=document.getElementById("runnerSelect").value;
+ nominees.forEach((p,i)=>p.award=(String(i)===w?"winner":String(i)===r?"runner":""));
+ const summary=document.getElementById("winnerSummary");
+ if(w!==""&&w===r){summary.innerHTML='<span class="danger">เลือกผู้ชนะและรองชนะเป็นคนเดียวกันไม่ได้</span>';return}
+ let lines=[];
+ if(w!=="")lines.push("Winner: "+(nominees[+w].name||"Nominee") +" · +3 pt");
+ if(r!=="")lines.push("Runner-up: "+(nominees[+r].name||"Nominee")+" · +0.75 pt ก่อนปัด");
+ summary.textContent=lines.length?lines.join(" | "):"เลือกผู้ชนะและรองชนะเพื่อเพิ่มโบนัสหลังคำนวณคะแนนผู้เล่น";
+ if(document.activeElement?.id==="winnerSelect"||document.activeElement?.id==="runnerSelect"){} 
+}
+document.getElementById("winnerSelect").addEventListener("change",()=>{updateWinnerAwards();renderNominees()});
+document.getElementById("runnerSelect").addEventListener("change",()=>{updateWinnerAwards();renderNominees()});
+function renderNormals(){
+ const el=document.getElementById("normalList");
+ if(!normals.length){el.innerHTML='<div class="mutedbox">ยังไม่มีรายชื่อ กด “เพิ่มผู้เล่น” เพื่อเริ่มต้น</div>';return}
+ el.innerHTML=`<div class="tablewrap"><table><thead><tr><th>#</th><th>ชื่อ</th><th>ทีม</th><th>ตำแหน่ง</th><th>อันดับทีม</th><th>ผลทีม</th><th>G</th><th>A</th><th>ซุปเปอร์เซฟ</th><th>MVP code</th><th>วินัย/พิเศษ</th><th>คะแนนดิบ</th><th>Total Final</th><th></th></tr></thead><tbody>${normals.map((p,i)=>{let s=scoreParts(p,true);let mom=({TOP1:7,TOP2:5,TOP3:3,P4:1.5} [p.mom]||0);let raw=s.preFinal+mom;return `<tr data-ni="${i}"><td>${i+1}</td><td><input data-n="name" value="${esc(p.name)}" placeholder="ชื่อผู้เล่น"></td><td><input data-n="team" value="${esc(p.team)}" placeholder="ทีม"></td><td><select data-n="position">${positions.map(x=>`<option value="${x[0]}" ${p.position===x[0]?"selected":""}>${x[1]}</option>`).join("")}</select></td><td><input data-n="rank" value="${esc(p.rank)}" placeholder="อันดับ"></td><td><select data-n="result">${[["W","ชนะ"],["D","เสมอ"],["L","แพ้"]].map(x=>`<option value="${x[0]}" ${p.result===x[0]?"selected":""}>${x[1]}</option>`).join("")}</select></td><td><input data-n="goals" type="number" min="0" step="1" value="${p.goals}"></td><td><input data-n="assists" type="number" min="0" step="1" value="${p.assists}"></td><td><input data-n="superSaves" type="number" min="0" step="1" value="${p.superSaves}"></td><td><select data-n="mom">${[["","—"],["TOP1","TOP1 MOM (+7)"],["TOP2","TOP2 MOM (+5)"],["TOP3","TOP3 MOM (+3)"],["P4","P4 (+1.5)"]].map(x=>`<option value="${x[0]}" ${p.mom===x[0]?"selected":""}>${x[1]}</option>`).join("")}</select></td><td><input data-n="codes" value="${esc(p.codes||"")}" placeholder="1GF 1BA 1Y 1R"><input data-n="special" type="number" min="0" step=".5" value="${p.special||0}" placeholder="คะแนนพิเศษ"></td><td>${fmt(raw)}</td><td><b style="color:var(--gold)">${fmt(finalRound(raw))}</b></td><td><button onclick="removeNormal(${i})">ลบ</button></td></tr>`}).join("")}</tbody></table></div>`;
+ el.querySelectorAll("[data-n]").forEach(inp=>inp.addEventListener("change",()=>{let tr=inp.closest("tr"),i=+tr.dataset.ni,k=inp.dataset.n;normals[i][k]=inp.type==="number"?num(inp.value):inp.value;if(k==="codes")parseCodes(normals[i]);renderNormals()}));
+}
+function parseCodes(p){
+ let c=(p.codes||"").toUpperCase().match(/\d+\s*(?:GF|BA|PS|1Y|1R|G|A|S|Y|R)\b/g)||[];
+ p.codeTotals={goals:0,freeGoals:0,assists:0,goldAssists:0,superSaves:0,penaltySaves:0,yellow:0,red:0};
+ c.forEach(t=>{let m=t.match(/(\d+)\s*(GF|BA|PS|1Y|1R|G|A|S|Y|R)/);if(!m)return;let n=+m[1],k=m[2];if(k==="G")p.codeTotals.goals+=n;if(k==="GF"){p.codeTotals.goals+=n;p.codeTotals.freeGoals+=n}if(k==="A")p.codeTotals.assists+=n;if(k==="BA"){p.codeTotals.assists+=n;p.codeTotals.goldAssists+=n}if(k==="S")p.codeTotals.superSaves+=n;if(k==="PS")p.codeTotals.penaltySaves+=n;if(k==="Y"||k==="1Y")p.codeTotals.yellow+=n;if(k==="R"||k==="1R")p.codeTotals.red+=n;});
+}
+function addNormal(){if(normals.length>=20){alert("Normal Player ได้สูงสุด 20 รายชื่อ");return}normals.push({...defaults(),mom:"",codes:"",special:0});renderNormals()}
+function removeNormal(i){normals.splice(i,1);renderNormals()}
+function clearNormal(){if(confirm("ล้างรายชื่อ Normal Player ทั้งหมด?")){normals=[];renderNormals()}}
+function exportJSON(){
+ const data={version:1,competition:document.getElementById("competition").value,matchdate:document.getElementById("matchdate").value,matchname:document.getElementById("matchname").value,matchnote:document.getElementById("matchnote").value,teamSize:document.getElementById("teamSize").value,winner:document.getElementById("winnerSelect").value,runner:document.getElementById("runnerSelect").value,nominees,normals};
+ const blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"}),a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="WICTORz-SATIT-Weekly-Points.json";a.click();URL.revokeObjectURL(a.href);
+}
+function importJSON(e){const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const d=JSON.parse(r.result);nominees=(d.nominees||[]).slice(0,7);while(nominees.length<7)nominees.push(defaults());normals=(d.normals||[]).slice(0,20);["competition","matchdate","matchname","matchnote","teamSize"].forEach(k=>{if(d[k]!=null)document.getElementById(k).value=d[k]});renderNominees();renderNormals();document.getElementById("winnerSelect").value=d.winner??"";document.getElementById("runnerSelect").value=d.runner??"";updateWinnerAwards();renderNominees();}catch(err){alert("อ่านไฟล์ไม่สำเร็จ กรุณาเลือกไฟล์ JSON ที่ Export จากแพลตฟอร์มนี้")}};r.readAsText(f);e.target.value=""}
+document.querySelectorAll("#weeklyTabs .tab").forEach(b=>b.addEventListener("click",()=>{document.querySelectorAll("#weeklyTabs .tab").forEach(x=>x.classList.toggle("active",x===b));["nominees","normal","rules"].forEach(id=>document.getElementById(id).classList.toggle("hidden",id!==b.dataset.tab))}));
+renderNominees();renderNormals();
+
+// SATIT GLORY League 2026 Season 2 — local-first league management layer
+const TEAM_DEFAULTS=["Thapae FC","REY LEON","Bang Himron","Buddy FC (เสียคอมXBuddy)","ALPHA FC","TOTA FC","บ้านสวนมีชัยฯ","ช้างน้อย","วัยรุ่นน้ำท่อม","กรณ์ดอกไม้สด","CLASS OF 62 CMU","PHOENIX"];
+const LEAGUE_KEY='satitGlorySeason2Platform_imported_v3';
+let league={teams:TEAM_DEFAULTS.map((name,i)=>({id:'T'+(i+1),name})),fixtures:[],stats:[],players:[],payments:{},drinks:[],ledger:[],disciplinePaid:{},previousRanks:{}};
+function initFixtures(){let arr=league.teams.map(t=>t.id),n=arr.length;if(n%2)arr.push(null);let rounds=[];let a=arr.slice();for(let r=0;r<a.length-1;r++){let games=[];for(let i=0;i<a.length/2;i++){let x=a[i],y=a[a.length-1-i];if(x&&y){if(r%2===0)games.push({week:r+1,home:x,away:y,homeGoals:'',awayGoals:''});else games.push({week:r+1,home:y,away:x,homeGoals:'',awayGoals:''});}}rounds.push(games);a=[a[0],a[a.length-1],...a.slice(1,a.length-1)];}league.fixtures=rounds.flat();}
+function teamName(id){return league.teams.find(t=>t.id===id)?.name||id||'—'}
+function money(n){return Number(n||0).toLocaleString('th-TH',{maximumFractionDigits:2})+' ฿'}
+function tableHTML(headers,rows,empty='ยังไม่มีข้อมูล'){return `<div class="tablewrap"><table><thead><tr>${headers.map(h=>`<th>${h}</th>`).join('')}</tr></thead><tbody>${rows.length?rows.join(''):`<tr><td colspan="${headers.length}" style="color:var(--muted);text-align:center;padding:22px">${empty}</td></tr>`}</tbody></table></div>`}
+function standings(){let list=league.teams.map(t=>({id:t.id,name:t.name,pl:0,w:0,d:0,l:0,gf:0,ga:0,pts:0,form:[]}));let map=Object.fromEntries(list.map(x=>[x.id,x]));league.fixtures.filter(f=>f.homeGoals!==''&&f.awayGoals!==''&&f.homeGoals!=null&&f.awayGoals!=null).forEach(f=>{let h=map[f.home],a=map[f.away],hg=+f.homeGoals,ag=+f.awayGoals;if(!h||!a||!Number.isFinite(hg)||!Number.isFinite(ag))return;h.pl++;a.pl++;h.gf+=hg;h.ga+=ag;a.gf+=ag;a.ga+=hg;let hr,ar;if(hg>ag){h.w++;a.l++;h.pts+=3;hr='W';ar='L'}else if(hg<ag){a.w++;h.l++;a.pts+=3;hr='L';ar='W'}else{h.d++;a.d++;h.pts++;a.pts++;hr=ar='D'}h.form.push({week:f.week,result:hr});a.form.push({week:f.week,result:ar});});return list.sort((a,b)=>b.pts-a.pts||(b.gf-b.ga)-(a.gf-a.ga)||b.gf-a.gf||a.name.localeCompare(b.name,'th'))}
+function completedFixtures(){return league.fixtures.filter(f=>f.homeGoals!==''&&f.awayGoals!==''&&f.homeGoals!=null&&f.awayGoals!=null)}
+function switchModule(id){document.querySelectorAll('.platform-module').forEach(s=>s.classList.toggle('hidden',s.id!=='module-'+id));document.querySelectorAll('#platformTabs [data-module]').forEach(b=>b.classList.toggle('active',b.dataset.module===id));if(id==='weeklypoints'){document.getElementById('weeklyTabs')?.classList.remove('hidden')}renderPlatform();window.scrollTo({top:0,behavior:'smooth'})}
+document.querySelectorAll('#platformTabs [data-module]').forEach(b=>b.addEventListener('click',()=>switchModule(b.dataset.module)));
+function fillSelect(id,items,firstLabel='เลือก...'){let el=document.getElementById(id);if(!el)return;let old=el.value;el.innerHTML=(firstLabel?`<option value="">${firstLabel}</option>`:'')+items.map(([v,l])=>`<option value="${v}">${l}</option>`).join('');if([...el.options].some(o=>o.value===old))el.value=old;}
+function setupSelects(){let weeks=Array.from({length:11},(_,i)=>[''+(i+1),'WEEK '+String(i+1).padStart(2,'0')]);['fixtureWeek','statWeek','financeWeek','drinkWeek'].forEach(id=>fillSelect(id,weeks,'ทุกสัปดาห์'));let teams=league.teams.map(t=>[t.id,t.name]);['statTeam','financeTeam','newPlayerTeam'].forEach(id=>fillSelect(id,teams,'เลือกทีม'));if(!document.getElementById('fixtureWeek').value)document.getElementById('fixtureWeek').value='1';if(!document.getElementById('statWeek').value)document.getElementById('statWeek').value='1';if(!document.getElementById('financeWeek').value)document.getElementById('financeWeek').value='1';if(!document.getElementById('drinkWeek').value)document.getElementById('drinkWeek').value='1';if(!document.getElementById('statTeam').value)document.getElementById('statTeam').value=league.teams[0]?.id||'';if(!document.getElementById('financeTeam').value)document.getElementById('financeTeam').value=league.teams[0]?.id||'';if(!document.getElementById('newPlayerTeam').value)document.getElementById('newPlayerTeam').value=league.teams[0]?.id||'';updateStatOpponent();}
+function renderFixtures(){let week=+document.getElementById('fixtureWeek').value||1,search=(document.getElementById('fixtureSearch').value||'').toLowerCase(),filter=document.getElementById('fixtureFilter').value;let games=league.fixtures.filter(f=>f.week===week).filter(f=>(teamName(f.home)+' '+teamName(f.away)).toLowerCase().includes(search)).filter(f=>filter==='all'||(filter==='played'?f.homeGoals!==''&&f.awayGoals!=='':f.homeGoals===''||f.awayGoals===''));let rows=games.map(f=>`<tr><td>MW${String(f.week).padStart(2,'0')}</td><td>${teamName(f.home)}</td><td><input aria-label="${teamName(f.home)} goals" type="number" min="0" step="1" data-fixture="${f.home}-${f.away}" data-side="homeGoals" value="${f.homeGoals}" style="width:70px"></td><td><input aria-label="${teamName(f.away)} goals" type="number" min="0" step="1" data-fixture="${f.home}-${f.away}" data-side="awayGoals" value="${f.awayGoals}" style="width:70px"></td><td>${teamName(f.away)}</td><td>${f.homeGoals!==''&&f.awayGoals!==''?'<span class="good">บันทึกผลแล้ว</span>':'<span class="small">รอแข่งขัน</span>'}</td></tr>`);document.getElementById('fixtureList').innerHTML=tableHTML(['สัปดาห์','ทีมเหย้า','ประตู','ประตู','ทีมเยือน','สถานะ'],rows,'ไม่มีแมตช์ตามตัวกรอง');}
+function saveFixtureResults(){document.querySelectorAll('[data-fixture]').forEach(el=>{let [h,a]=el.dataset.fixture.split('-'),f=league.fixtures.find(x=>x.home===h&&x.away===a);if(f)f[el.dataset.side]=el.value===''?'':Math.max(0,parseInt(el.value,10)||0)});saveAll();renderPlatform();alert('บันทึกผลการแข่งขันแล้ว')}
+function clearWeekResults(){let w=+document.getElementById('fixtureWeek').value||1;if(!confirm('ล้างผลการแข่งขันของ WEEK '+w+' ทั้งหมดหรือไม่?'))return;league.fixtures.filter(f=>f.week===w).forEach(f=>{f.homeGoals='';f.awayGoals=''});saveAll();renderPlatform()}
+function regenerateFixtures(){if(!confirm('สร้างโปรแกรมใหม่และล้างผลการแข่งขันเดิมทั้งหมดหรือไม่?'))return;initFixtures();saveAll();setupSelects();renderPlatform()}
+function renderStandings(){let s=standings();let rows=s.map((t,i)=>{let prev=league.previousRanks[t.id],arrow=prev==null?'—':(prev>i+1?`<span class="good">▲ ${prev-(i+1)}</span>`:prev<i+1?`<span class="danger">▼ ${(i+1)-prev}</span>`:'↔');let form=t.form.slice(-5).map(x=>`<span class="formchip form-${x.result}">${x.result}</span>`).join('')||'—';return `<tr><td><b>${i+1}</b> ${arrow}</td><td><b>${t.name}</b></td><td>${t.pl}</td><td>${t.w}</td><td>${t.d}</td><td>${t.l}</td><td>${t.gf}</td><td>${t.ga}</td><td>${t.gf-t.ga>0?'+':''}${t.gf-t.ga}</td><td><b>${t.pts}</b></td><td>${form}</td></tr>`});document.getElementById('standingsTable').innerHTML=tableHTML(['อันดับ','ทีม','แข่ง','ชนะ','เสมอ','แพ้','ได้','เสีย','ผลต่าง','คะแนน','ฟอร์ม 5 นัด'],rows);document.getElementById('dashStandings').innerHTML=tableHTML(['#','ทีม','แข่ง','ผลต่าง','คะแนน'],s.slice(0,5).map((t,i)=>`<tr><td>${i+1}</td><td>${t.name}</td><td>${t.pl}</td><td>${t.gf-t.ga}</td><td><b>${t.pts}</b></td></tr>`));}
+function renderTeamEditor(){document.getElementById('teamEditor').innerHTML=league.teams.map((t,i)=>`<div class="field"><label>ทีม ${i+1}</label><input data-teamid="${t.id}" value="${esc(t.name)}"></div>`).join('')}
+function saveTeamNames(){document.querySelectorAll('[data-teamid]').forEach(el=>{let t=league.teams.find(t=>t.id===el.dataset.teamid);if(t&&el.value.trim())t.name=el.value.trim()});saveAll();setupSelects();renderPlatform();alert('บันทึกชื่อทีมแล้ว')}
+function addPlayerStat(){let name=document.getElementById('statPlayer').value.trim(),team=document.getElementById('statTeam').value;if(!name||!team){alert('กรุณากรอกชื่อผู้เล่นและทีม');return}let week=+document.getElementById('statWeek').value||1;league.stats.push({id:Date.now()+Math.random(),week,team,name,opponent:document.getElementById('statOpponent').value,goals:+document.getElementById('statGoals').value||0,assists:+document.getElementById('statAssists').value||0,yellow:+document.getElementById('statYellow').value||0,red:+document.getElementById('statRed').value||0});document.getElementById('statPlayer').value='';['statGoals','statAssists','statYellow','statRed'].forEach(id=>document.getElementById(id).value=0);saveAll();renderPlatform()}
+function updateStatOpponent(){let team=document.getElementById('statTeam')?.value,week=+(document.getElementById('statWeek')?.value||1),game=league.fixtures.find(f=>f.week===week&&(f.home===team||f.away===team));let op=game?teamName(game.home===team?game.away:game.home):'';let el=document.getElementById('statOpponent');if(el)el.value=op}
+function removeStat(id){league.stats=league.stats.filter(s=>String(s.id)!==String(id));saveAll();renderPlatform()}
+function renderStats(){let aggregate=type=>{let m={};league.stats.forEach(s=>{let n=type==='goals'?s.goals:s.assists;if(!n)return;let k=s.name+'|'+s.team;if(!m[k])m[k]={name:s.name,team:s.team,value:0};m[k].value+=n});return Object.values(m).sort((a,b)=>b.value-a.value||a.name.localeCompare(b.name))};let list=(type)=>aggregate(type).map((p,i)=>`<tr><td>${i+1}</td><td>${esc(p.name)}</td><td>${teamName(p.team)}</td><td><b>${p.value}</b></td></tr>`);document.getElementById('scorersTable').innerHTML=tableHTML(['#','ผู้เล่น','ทีม','ประตู'],list('goals'));document.getElementById('assistsTable').innerHTML=tableHTML(['#','ผู้เล่น','ทีม','แอสซิสต์'],list('assists'));document.getElementById('playerStatsTable').innerHTML=tableHTML(['MW','ผู้เล่น','ทีม','คู่แข่ง','G','A','เหลือง','แดง',''],league.stats.slice().sort((a,b)=>a.week-b.week).map(s=>`<tr><td>${s.week}</td><td>${esc(s.name)}</td><td>${teamName(s.team)}</td><td>${esc(s.opponent||'—')}</td><td>${s.goals}</td><td>${s.assists}</td><td>${s.yellow}</td><td>${s.red}</td><td><button onclick="removeStat('${s.id}')">ลบ</button></td></tr>`))}
+function addRegistryPlayer(){let name=document.getElementById('newPlayerName').value.trim(),team=document.getElementById('newPlayerTeam').value;if(!name||!team){alert('กรุณากรอกชื่อและทีม');return}if(league.players.some(p=>p.name.toLowerCase()===name.toLowerCase()&&p.team===team)){alert('มีรายชื่อนี้ในทีมแล้ว');return}league.players.push({id:Date.now()+Math.random(),name,team,position:document.getElementById('newPlayerPosition').value});document.getElementById('newPlayerName').value='';saveAll();renderRegistry()}
+function removeRegistryPlayer(id){league.players=league.players.filter(p=>String(p.id)!==String(id));saveAll();renderRegistry()}
+function renderRegistry(){let q=(document.getElementById('playerSearch')?.value||'').toLowerCase();let list=league.players.filter(p=>(p.name+' '+teamName(p.team)+' '+p.position).toLowerCase().includes(q));document.getElementById('registryTable').innerHTML=tableHTML(['#','ชื่อ','ทีม','ตำแหน่ง',''],list.map((p,i)=>`<tr><td>${i+1}</td><td>${esc(p.name)}</td><td>${teamName(p.team)}</td><td>${esc(p.position)}</td><td><button onclick="removeRegistryPlayer('${p.id}')">ลบ</button></td></tr>`))}
+function renderDiscipline(){let map={};league.stats.forEach(s=>{let k=s.name+'|'+s.team;if(!map[k])map[k]={name:s.name,team:s.team,y:0,r:0};map[k].y+=s.yellow;map[k].r+=s.red});let rows=Object.entries(map).filter(([k,p])=>p.y||p.r).map(([k,p])=>{let fine=p.y*50+p.r*150,paid=league.disciplinePaid[k]||'ค้างชำระ';return `<tr><td>${esc(p.name)}</td><td>${teamName(p.team)}</td><td>${p.y}</td><td>${p.r}</td><td>${money(fine)}</td><td><select data-dpaid="${esc(k)}"><option ${paid==='ค้างชำระ'?'selected':''}>ค้างชำระ</option><option ${paid==='จ่ายแล้ว'?'selected':''}>จ่ายแล้ว</option></select></td></tr>`});document.getElementById('disciplineTable').innerHTML=tableHTML(['ผู้เล่น','ทีม','เหลือง','แดง','ค่าปรับ','สถานะชำระ'],rows);document.querySelectorAll('[data-dpaid]').forEach(el=>el.addEventListener('change',()=>{league.disciplinePaid[el.dataset.dpaid]=el.value;saveAll();renderFinanceSummary()}))}
+function paymentKey(week,team){return week+'|'+team}
+function updateFieldPayment(){let w=+document.getElementById('financeWeek').value||1,t=document.getElementById('financeTeam').value,status=document.getElementById('financeStatus').value;if(!t){alert('เลือกทีมก่อน');return}league.payments[paymentKey(w,t)]={week:w,team:t,status,amount:750};saveAll();renderFinance()}
+function addDrinkSale(){let qty=Math.max(1,+document.getElementById('drinkQty').value||1),price=Math.max(0,+document.getElementById('drinkPrice').value||0);league.drinks.push({id:Date.now()+Math.random(),week:+document.getElementById('drinkWeek').value||1,buyer:document.getElementById('drinkBuyer').value.trim(),product:document.getElementById('drinkProduct').value,qty,price,paid:document.getElementById('drinkPaid').value});saveAll();renderFinance()}
+function removeDrink(id){league.drinks=league.drinks.filter(d=>String(d.id)!==String(id));saveAll();renderFinance()}
+function addLedgerEntry(){let label=document.getElementById('ledgerLabel').value.trim(),amount=Math.max(0,+document.getElementById('ledgerAmount').value||0);if(!label||!amount){alert('กรอกรายการและจำนวนเงินให้ครบ');return}league.ledger.push({id:Date.now()+Math.random(),label,type:document.getElementById('ledgerType').value,amount});document.getElementById('ledgerLabel').value='';document.getElementById('ledgerAmount').value='0';saveAll();renderFinance()}
+function removeLedger(id){league.ledger=league.ledger.filter(x=>String(x.id)!==String(id));saveAll();renderFinance()}
+function renderFinanceSummary(){let paid=Object.values(league.payments).filter(p=>p.status==='จ่ายแล้ว').reduce((a,p)=>a+p.amount,0),slip=Object.values(league.payments).filter(p=>p.status==='Slip').reduce((a,p)=>a+p.amount,0),due=Object.values(league.payments).filter(p=>p.status==='ยัง'||p.status==='ไม่ทราบ').reduce((a,p)=>a+p.amount,0);let drinkPaid=league.drinks.filter(d=>d.paid==='จ่ายแล้ว').reduce((a,d)=>a+d.qty*d.price,0);let expense=league.ledger.filter(x=>x.type==='expense').reduce((a,x)=>a+x.amount,0),income=league.ledger.filter(x=>x.type==='income').reduce((a,x)=>a+x.amount,0);document.getElementById('financeSummary').innerHTML=`<div class="metric"><small>ค่าสนามรับแล้ว</small><strong>${money(paid)}</strong><span>ส่งสลิป: ${money(slip)}</span></div><div class="metric"><small>ค่าสนามค้าง/ไม่ทราบ</small><strong>${money(due)}</strong><span>ยังไม่รวมใบปรับและยอดขายค้าง</span></div><div class="metric"><small>ยอดสุทธิจากรายการบัญชี + เครื่องดื่ม</small><strong>${money(paid+drinkPaid+income-expense)}</strong><span>เครื่องดื่มรับแล้ว ${money(drinkPaid)} · รายจ่าย ${money(expense)}</span></div>`}
+function renderFinance(){renderFinanceSummary();let payments=Object.values(league.payments).sort((a,b)=>a.week-b.week||teamName(a.team).localeCompare(teamName(b.team),'th'));document.getElementById('fieldPaymentTable').innerHTML=tableHTML(['สัปดาห์','ทีม','ยอดค่าสนาม','สถานะ',''],payments.map(p=>`<tr><td>MW${p.week}</td><td>${teamName(p.team)}</td><td>${money(p.amount)}</td><td><select data-paystatus="${paymentKey(p.week,p.team)}"><option ${p.status==='ยัง'?'selected':''}>ยัง</option><option ${p.status==='จ่ายแล้ว'?'selected':''}>จ่ายแล้ว</option><option ${p.status==='Slip'?'selected':''}>Slip</option><option ${p.status==='ไม่ทราบ'?'selected':''}>ไม่ทราบ</option></select></td><td><button onclick="deletePayment('${paymentKey(p.week,p.team)}')">ลบ</button></td></tr>`));document.querySelectorAll('[data-paystatus]').forEach(el=>el.addEventListener('change',()=>{if(league.payments[el.dataset.paystatus])league.payments[el.dataset.paystatus].status=el.value;saveAll();renderFinanceSummary()}));document.getElementById('drinkTable').innerHTML=tableHTML(['MW','ผู้ซื้อ','สินค้า','จำนวน','หน่วยละ','รวม','สถานะ',''],league.drinks.map(d=>`<tr><td>${d.week}</td><td>${esc(d.buyer||'—')}</td><td>${esc(d.product)}</td><td>${d.qty}</td><td>${money(d.price)}</td><td>${money(d.qty*d.price)}</td><td>${d.paid}</td><td><button onclick="removeDrink('${d.id}')">ลบ</button></td></tr>`));document.getElementById('ledgerTable').innerHTML=tableHTML(['รายการ','ประเภท','ยอดเงิน',''],league.ledger.map(x=>`<tr><td>${esc(x.label)}</td><td>${x.type==='income'?'รายรับ':'รายจ่าย'}</td><td>${money(x.amount)}</td><td><button onclick="removeLedger('${x.id}')">ลบ</button></td></tr>`))}
+function deletePayment(k){delete league.payments[k];saveAll();renderFinance()}
+function renderDashboard(){let done=completedFixtures().length,total=league.fixtures.length,s=standings(),fines=league.stats.reduce((a,p)=>a+p.yellow*50+p.red*150,0),due=Object.values(league.payments).filter(p=>p.status==='ยัง'||p.status==='ไม่ทราบ').reduce((a,p)=>a+p.amount,0);document.getElementById('dashboardCards').innerHTML=`<div class="metric"><small>TEAMS</small><strong>${league.teams.length}</strong><span>ทีมในลีก</span></div><div class="metric"><small>FIXTURES COMPLETED</small><strong>${done}/${total}</strong><span>${total?Math.round(done/total*100):0}% ของโปรแกรม</span></div><div class="metric"><small>PLAYER RECORDS</small><strong>${league.players.length}</strong><span>ทะเบียนนักเตะ</span></div><div class="metric"><small>DISCIPLINARY FINES</small><strong>${money(fines)}</strong><span>ยอดค่าปรับจากสถิติใบ</span></div>`;let next=league.fixtures.filter(f=>f.homeGoals===''||f.awayGoals==='').slice(0,6);document.getElementById('dashFixtures').innerHTML=tableHTML(['MW','โปรแกรม','สถานะ'],next.map(f=>`<tr><td>${f.week}</td><td>${teamName(f.home)} <span style="color:var(--gold)">vs</span> ${teamName(f.away)}</td><td><span class="small">รอผล</span></td></tr>`));document.getElementById('systemStatus').innerHTML=`บันทึกอัตโนมัติในเบราว์เซอร์: <b class="good">เปิดใช้งาน</b> · แมตช์ลงผลแล้ว ${done}/${total} · สถิติผู้เล่น ${league.stats.length} รายการ · ค่าสนามค้าง ${money(due)}<br>คำแนะนำ: กด “สำรองข้อมูล JSON” เป็นระยะเพื่อป้องกันข้อมูลหาย และใช้ไฟล์เดียวกัน/เบราว์เซอร์เดียวกันหากยังไม่ได้เชื่อมฐานข้อมูลออนไลน์`}
+function renderPlatform(){setupSelects();renderDashboard();renderStandings();renderTeamEditor();renderFixtures();renderStats();renderRegistry();renderDiscipline();renderFinance();updateStatOpponent()}
+function saveAll(){try{localStorage.setItem(LEAGUE_KEY,JSON.stringify({league,nominees,normals,weekly:{competition:document.getElementById('competition')?.value||'',matchdate:document.getElementById('matchdate')?.value||'',matchname:document.getElementById('matchname')?.value||'',matchnote:document.getElementById('matchnote')?.value||'',teamSize:document.getElementById('teamSize')?.value||'7',winner:document.getElementById('winnerSelect')?.value||'',runner:document.getElementById('runnerSelect')?.value||''}}))}catch(e){console.warn('Autosave unavailable',e)}}
+function loadAll(){try{let raw=localStorage.getItem(LEAGUE_KEY);if(!raw)return;let d=JSON.parse(raw);if(d.league)league={...league,...d.league};if(d.nominees&&Array.isArray(d.nominees)){nominees=d.nominees.slice(0,7);while(nominees.length<7)nominees.push(defaults())}if(d.normals)normals=d.normals.slice(0,20);if(d.weekly){Object.keys(d.weekly).forEach(k=>{let el=document.getElementById(k);if(el)el.value=d.weekly[k]})}}catch(e){console.warn('Could not restore saved state',e)}}
+// Full platform backup includes all league records and the weekly fantasy module.
+function exportJSON(){saveAll();let data={app:'SATIT GLORY League 2026 Season 2',version:2,league,nominees,normals,weekly:{competition:document.getElementById('competition').value,matchdate:document.getElementById('matchdate').value,matchname:document.getElementById('matchname').value,matchnote:document.getElementById('matchnote').value,teamSize:document.getElementById('teamSize').value,winner:document.getElementById('winnerSelect').value,runner:document.getElementById('runnerSelect').value}};let blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='SATIT-GLORY-Season2-Backup.json';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)}
+function importJSON(e){let f=e.target.files[0];if(!f)return;let r=new FileReader();r.onload=()=>{try{let d=JSON.parse(r.result);if(d.league)league={...league,...d.league};else if(d.teams&&d.fixtures)league={...league,...d};if(d.nominees){nominees=d.nominees.slice(0,7);while(nominees.length<7)nominees.push(defaults())}if(d.normals)normals=d.normals.slice(0,20);if(d.weekly)Object.entries(d.weekly).forEach(([k,v])=>{let el=document.getElementById(k);if(el)el.value=v});saveAll();renderNominees();renderNormals();renderPlatform();alert('นำเข้าข้อมูลสำเร็จ')}catch(err){alert('นำเข้าไม่สำเร็จ กรุณาเลือกไฟล์สำรอง JSON ที่ถูกต้อง')}};r.readAsText(f);e.target.value=''}
+// Autosave form edits and refresh dependent views.
+document.addEventListener('change',e=>{if(e.target.matches('#fixtureWeek,#fixtureFilter'))renderFixtures();if(e.target.matches('#statWeek,#statTeam'))updateStatOpponent();if(e.target.matches('#financeWeek,#financeTeam')){}if(e.target.closest('#module-')){}saveAll()});
+document.getElementById('fixtureSearch').addEventListener('input',renderFixtures);document.getElementById('playerSearch').addEventListener('input',renderRegistry);document.getElementById('drinkProduct').addEventListener('change',()=>{let prices={'น้ำเปล่า':5,'Sponsor/โคล่า/Oishi':17,'Sponsor เล็ก':15,'Sponsor Go ใหญ่':20,'น้ำมะพร้าว':12};document.getElementById('drinkPrice').value=prices[document.getElementById('drinkProduct').value]||0});
+// Wrap weekly renderers to persist fantasy changes, and autosave metadata.
+const _renderNomineesOriginal=renderNominees;renderNominees=function(){_renderNomineesOriginal();saveAll()};const _renderNormalsOriginal=renderNormals;renderNormals=function(){_renderNormalsOriginal();saveAll()};
+const IMPORTED_SEASON2_DATA={"fixtures":[{"id":"MW1-1","week":1,"home":"T1","away":"T2","homeGoals":"3","awayGoals":"0","date":"2026-08-06"},{"id":"MW1-2","week":1,"home":"T5","away":"T9","homeGoals":"3","awayGoals":"1","date":"2026-08-06"},{"id":"MW1-3","week":1,"home":"T3","away":"T4","homeGoals":"2","awayGoals":"3","date":"2026-08-06"},{"id":"MW1-4","week":1,"home":"T12","away":"T8","homeGoals":"0","awayGoals":"1","date":"2026-08-06"},{"id":"MW1-5","week":1,"home":"T6","away":"T7","homeGoals":"1","awayGoals":"0","date":"2026-08-06"},{"id":"MW1-6","week":1,"home":"T10","away":"T11","homeGoals":"0","awayGoals":"1","date":"2026-08-06"},{"id":"MW2-1","week":2,"home":"T3","away":"T7","homeGoals":"5","awayGoals":"0","date":"2026-08-13"},{"id":"MW2-2","week":2,"home":"T1","away":"T4","homeGoals":"2","awayGoals":"0","date":"2026-08-13"},{"id":"MW2-3","week":2,"home":"T5","away":"T8","homeGoals":"1","awayGoals":"3","date":"2026-08-13"},{"id":"MW2-4","week":2,"home":"T12","away":"T6","homeGoals":"2","awayGoals":"0","date":"2026-08-13"},{"id":"MW2-5","week":2,"home":"T10","away":"T2","homeGoals":"4","awayGoals":"1","date":"2026-08-13"},{"id":"MW2-6","week":2,"home":"T11","away":"T9","homeGoals":"3","awayGoals":"0","date":"2026-08-13"},{"id":"MW3-1","week":3,"home":"T7","away":"T1","homeGoals":"0","awayGoals":"1","date":"2026-09-20"},{"id":"MW3-2","week":3,"home":"T3","away":"T12","homeGoals":"0","awayGoals":"0","date":"2026-09-20"},{"id":"MW3-3","week":3,"home":"T2","away":"T4","homeGoals":"3","awayGoals":"2","date":"2026-09-20"},{"id":"MW3-4","week":3,"home":"T11","away":"T8","homeGoals":"1","awayGoals":"1","date":"2026-09-20"},{"id":"MW3-5","week":3,"home":"T5","away":"T6","homeGoals":"4","awayGoals":"0","date":"2026-09-20"},{"id":"MW3-6","week":3,"home":"T10","away":"T9","homeGoals":"5","awayGoals":"0","date":"2026-09-20"},{"id":"MW4-1","week":4,"home":"T5","away":"T3","homeGoals":"5","awayGoals":"0","date":"2026-09-27"},{"id":"MW4-2","week":4,"home":"T11","away":"T6","homeGoals":"2","awayGoals":"4","date":"2026-09-27"},{"id":"MW4-3","week":4,"home":"T2","away":"T7","homeGoals":"3","awayGoals":"0","date":"2026-09-27"},{"id":"MW4-4","week":4,"home":"T1","away":"T12","homeGoals":"0","awayGoals":"1","date":"2026-09-27"},{"id":"MW4-5","week":4,"home":"T10","away":"T4","homeGoals":"2","awayGoals":"0","date":"2026-09-27"},{"id":"MW4-6","week":4,"home":"T9","away":"T8","homeGoals":"0","awayGoals":"5","date":"2026-09-27"},{"id":"MW5-1","week":5,"home":"T4","away":"T7","homeGoals":"1","awayGoals":"1","date":"2026-10-04"},{"id":"MW5-2","week":5,"home":"T10","away":"T8","homeGoals":"2","awayGoals":"2","date":"2026-10-04"},{"id":"MW5-3","week":5,"home":"T11","away":"T3","homeGoals":"0","awayGoals":"4","date":"2026-10-04"},{"id":"MW5-4","week":5,"home":"T2","away":"T12","homeGoals":"1","awayGoals":"2","date":"2026-10-04"},{"id":"MW5-5","week":5,"home":"T1","away":"T5","homeGoals":"4","awayGoals":"0","date":"2026-10-04"},{"id":"MW5-6","week":5,"home":"T9","away":"T6","homeGoals":"2","awayGoals":"3","date":"2026-10-04"},{"id":"MW6-1","week":6,"home":"T7","away":"T10","homeGoals":"1","awayGoals":"2","date":"2026-10-11"},{"id":"MW6-2","week":6,"home":"T12","away":"T4","homeGoals":"3","awayGoals":"1","date":"2026-10-11"},{"id":"MW6-3","week":6,"home":"T6","away":"T8","homeGoals":"1","awayGoals":"2","date":"2026-10-11"},{"id":"MW6-4","week":6,"home":"T5","away":"T2","homeGoals":"0","awayGoals":"2","date":"2026-10-11"},{"id":"MW6-5","week":6,"home":"T3","away":"T9","homeGoals":"5","awayGoals":"0","date":"2026-10-11"},{"id":"MW6-6","week":6,"home":"T1","away":"T11","homeGoals":"2","awayGoals":"0","date":"2026-10-11"},{"id":"MW7-1","week":7,"home":"T2","away":"T11","homeGoals":"","awayGoals":"","date":"2026-10-18"},{"id":"MW7-2","week":7,"home":"T10","away":"T6","homeGoals":"","awayGoals":"","date":"2026-10-18"},{"id":"MW7-3","week":7,"home":"T8","away":"T3","homeGoals":"","awayGoals":"","date":"2026-10-18"},{"id":"MW7-4","week":7,"home":"T4","away":"T5","homeGoals":"","awayGoals":"","date":"2026-10-18"},{"id":"MW7-5","week":7,"home":"T7","away":"T12","homeGoals":"","awayGoals":"","date":"2026-10-18"},{"id":"MW7-6","week":7,"home":"T9","away":"T1","homeGoals":"","awayGoals":"","date":"2026-10-18"},{"id":"MW8-1","week":8,"home":"T6","away":"T3","homeGoals":"","awayGoals":"","date":"2026-10-25"},{"id":"MW8-2","week":8,"home":"T10","away":"T12","homeGoals":"","awayGoals":"","date":"2026-10-25"},{"id":"MW8-3","week":8,"home":"T4","away":"T11","homeGoals":"","awayGoals":"","date":"2026-10-25"},{"id":"MW8-4","week":8,"home":"T7","away":"T5","homeGoals":"","awayGoals":"","date":"2026-10-25"},{"id":"MW8-5","week":8,"home":"T8","away":"T1","homeGoals":"","awayGoals":"","date":"2026-10-25"},{"id":"MW8-6","week":8,"home":"T9","away":"T2","homeGoals":"","awayGoals":"","date":"2026-10-25"},{"id":"MW9-1","week":9,"home":"T12","away":"T5","homeGoals":"","awayGoals":"","date":"2026-11-01"},{"id":"MW9-2","week":9,"home":"T10","away":"T3","homeGoals":"","awayGoals":"","date":"2026-11-01"},{"id":"MW9-3","week":9,"home":"T8","away":"T2","homeGoals":"","awayGoals":"","date":"2026-11-01"},{"id":"MW9-4","week":9,"home":"T6","away":"T1","homeGoals":"","awayGoals":"","date":"2026-11-01"},{"id":"MW9-5","week":9,"home":"T7","away":"T11","homeGoals":"","awayGoals":"","date":"2026-11-01"},{"id":"MW9-6","week":9,"home":"T4","away":"T9","homeGoals":"","awayGoals":"","date":"2026-11-01"},{"id":"MW10-1","week":10,"home":"T8","away":"T4","homeGoals":"","awayGoals":"","date":"2026-11-08"},{"id":"MW10-2","week":10,"home":"T3","away":"T1","homeGoals":"","awayGoals":"","date":"2026-11-08"},{"id":"MW10-3","week":10,"home":"T10","away":"T5","homeGoals":"","awayGoals":"","date":"2026-11-08"},{"id":"MW10-4","week":10,"home":"T6","away":"T2","homeGoals":"","awayGoals":"","date":"2026-11-08"},{"id":"MW10-5","week":10,"home":"T7","away":"T9","homeGoals":"","awayGoals":"","date":"2026-11-08"},{"id":"MW10-6","week":10,"home":"T12","away":"T11","homeGoals":"","awayGoals":"","date":"2026-11-08"},{"id":"MW11-1","week":11,"home":"T3","away":"T2","homeGoals":"","awayGoals":"","date":"2026-11-15"},{"id":"MW11-2","week":11,"home":"T6","away":"T4","homeGoals":"","awayGoals":"","date":"2026-11-15"},{"id":"MW11-3","week":11,"home":"T10","away":"T1","homeGoals":"","awayGoals":"","date":"2026-11-15"},{"id":"MW11-4","week":11,"home":"T5","away":"T11","homeGoals":"","awayGoals":"","date":"2026-11-15"},{"id":"MW11-5","week":11,"home":"T7","away":"T8","homeGoals":"","awayGoals":"","date":"2026-11-15"},{"id":"MW11-6","week":11,"home":"T12","away":"T9","homeGoals":"","awayGoals":"","date":"2026-11-15"}],"players":[{"id":"IMP-0-R-1","name":"กัน","team":"T1","position":"MID"},{"id":"IMP-0-R-2","name":"ปาล์ม","team":"T1","position":"MID"},{"id":"IMP-0-R-3","name":"ฟอร์ด","team":"T1","position":"MID"},{"id":"IMP-0-R-4","name":"เซีย","team":"T1","position":"MID"},{"id":"IMP-0-R-5","name":"เจมส์บอล C","team":"T1","position":"MID"},{"id":"IMP-0-R-6","name":"ซีส","team":"T1","position":"MID"},{"id":"IMP-0-R-7","name":"แคมป์","team":"T1","position":"MID"},{"id":"IMP-0-R-8","name":"คิม","team":"T1","position":"MID"},{"id":"IMP-0-R-9","name":"เกียร์","team":"T1","position":"MID"},{"id":"IMP-0-R-10","name":"อาร์ม","team":"T1","position":"MID"},{"id":"IMP-0-R-11","name":"คอม","team":"T1","position":"MID"},{"id":"IMP-0-R-12","name":"พัน","team":"T1","position":"MID"},{"id":"IMP-0-R-13","name":"จอห์น","team":"T1","position":"MID"},{"id":"IMP-0-R-14","name":"พี่แมค","team":"T1","position":"MID"},{"id":"IMP-0-R-15","name":"หยวน","team":"T1","position":"MID"},{"id":"IMP-0-R-16","name":"ตะวัน","team":"T1","position":"MID"},{"id":"IMP-0-R-17","name":"พี่เฟิร์ส","team":"T1","position":"MID"},{"id":"IMP-0-R-18","name":"เติ้ล","team":"T1","position":"MID"},{"id":"IMP-0-R-19","name":"บาส","team":"T1","position":"MID"},{"id":"IMP-0-R-20","name":"น้องพี","team":"T1","position":"MID"},{"id":"IMP-0-R-21","name":"อั๋น","team":"T1","position":"MID"},{"id":"IMP-0-R-22","name":"รามอส","team":"T1","position":"MID"},{"id":"IMP-0-R-23","name":"พี่เต้","team":"T1","position":"MID"},{"id":"IMP-0-R-24","name":"ตาล","team":"T1","position":"MID"},{"id":"IMP-0-R-25","name":"มอส","team":"T1","position":"MID"},{"id":"IMP-0-R-26","name":"ปาย","team":"T1","position":"MID"},{"id":"IMP-0-L-27","name":"17G 28G","team":"T7","position":"MID"},{"id":"IMP-0-R-28","name":"อาร์ต","team":"T1","position":"MID"},{"id":"IMP-1-L-29","name":"อภิสิทธิ์","team":"T3","position":"MID"},{"id":"IMP-1-L-30","name":"รุ่งเรือง","team":"T3","position":"FWD"},{"id":"IMP-1-L-31","name":"อัศวิน","team":"T3","position":"FWD"},{"id":"IMP-1-L-32","name":"อรรถพล","team":"T3","position":"MID"},{"id":"IMP-1-L-33","name":"ชาคริต","team":"T3","position":"DEF"},{"id":"IMP-1-L-34","name":"สรพัศ","team":"T3","position":"MID"},{"id":"IMP-1-L-35","name":"ไมเคิล","team":"T3","position":"DEF"},{"id":"IMP-1-L-36","name":"กิตติกร","team":"T3","position":"DEF"},{"id":"IMP-1-L-37","name":"พงศ์สุระ","team":"T3","position":"DEF"},{"id":"IMP-1-L-38","name":"ภูวเดช","team":"T3","position":"FWD"},{"id":"IMP-1-L-39","name":"กฤษฎา","team":"T3","position":"GK"},{"id":"IMP-1-R-40","name":"69G 23G 29A 7A G0 6Y 21Y 55g","team":"T12","position":"MID"},{"id":"IMP-1-R-41","name":"99G 2A 95A 99G 99G 25G","team":"T12","position":"MID"},{"id":"IMP-2-L-42","name":"21G / 9A / 13A (9 เอี๊ยม) 1G 7G 7G / 17พีGG 19.9A เอี๊ยม 21G 0G 39G","team":"T2","position":"MID"},{"id":"IMP-2-R-43","name":"1500GGG 19G 8G 27GF 7G","team":"T4","position":"MID"},{"id":"IMP-3-L-44","name":"Shugen พีรวิชญ์ นันศิริ","team":"T11","position":"GK"},{"id":"IMP-3-L-45","name":"ต้าร์ พีรณัฐ นันศิริ","team":"T11","position":"DEF"},{"id":"IMP-3-L-46","name":"บอล ยุทธพิชัย มะโนนัย","team":"T11","position":"DEF"},{"id":"IMP-3-L-47","name":"นันทพงศ์ อินเปี้ย","team":"T11","position":"MID"},{"id":"IMP-3-L-48","name":"วอม ธนพัฒน์ หันพนัส","team":"T11","position":"FWD"},{"id":"IMP-3-L-49","name":"สวัสชัย จอคำมั่น","team":"T11","position":"MID"},{"id":"IMP-3-L-50","name":"ภูพา ศรัรยู กาวินนะ","team":"T11","position":"FWD"},{"id":"IMP-3-L-51","name":"ไปป์ Nontapat","team":"T11","position":"MID"},{"id":"IMP-3-L-52","name":"ภควัต บุญเรือง","team":"T11","position":"WING"},{"id":"IMP-3-L-53","name":"ตัง ณัฐพงศ์ ตันทะลา","team":"T11","position":"FWD"},{"id":"IMP-3-L-54","name":"น่าน ชินวัตร รัตนะ","team":"T11","position":"FWD"},{"id":"IMP-3-L-55","name":"ฉัตรรัตน์ มทุลล","team":"T11","position":"WING"},{"id":"IMP-3-L-56","name":"จี ศรันยพงศ์","team":"T11","position":"DEF"},{"id":"IMP-3-L-57","name":"สันติสุจ ซื้อตงต่อย","team":"T11","position":"MID"},{"id":"IMP-3-L-58","name":"ต๋อย สุพรรณสาร","team":"T11","position":"GK"},{"id":"IMP-3-L-59","name":"เพชร อธิวัฒน์ ประจำกิจ","team":"T11","position":"GK"},{"id":"IMP-3-L-60","name":"ฟิม ภานุวิชญ์ นามลังกา","team":"T11","position":"MID"},{"id":"IMP-3-L-61","name":"ตัง ตันทรัพย์ ท้าวมูลทรัพย์","team":"T11","position":"DEF"},{"id":"IMP-3-L-62","name":"กร ธนกร กระจ่างทิมาคุณ","team":"T11","position":"MID"},{"id":"IMP-3-L-63","name":"แมน ศุภชัย","team":"T11","position":"FWD"},{"id":"IMP-3-L-64","name":"ณัฐกิจ","team":"T11","position":"MID"},{"id":"IMP-3-L-65","name":"ชัต ชนัต วุฒิอดิเรก","team":"T11","position":"DEF"},{"id":"IMP-3-L-66","name":"โอ้ต รัตนะ รัตนพงศ์","team":"T11","position":"MID"},{"id":"IMP-3-L-67","name":"กิติกร ปันวารี","team":"T11","position":"DEF"},{"id":"IMP-3-L-68","name":"วรกล คุ้มคำ","team":"T11","position":"WING"},{"id":"IMP-3-L-69","name":"ธนนิช หารพานิชนา","team":"T11","position":"WING"},{"id":"IMP-3-R-70","name":"8G 11GG 0G 34G 10GF 17G 10G 15GGGG 11G 13G 11G 23G","team":"T8","position":"MID"},{"id":"IMP-3-L-71","name":"ณภัทร ปานแก้ว","team":"T11","position":"GK"},{"id":"IMP-3-L-72","name":"วัชรพล พรหมมี","team":"T11","position":"DEF"},{"id":"IMP-3-L-73","name":"วิคเตอร์ ไอแซค","team":"T11","position":"MID"},{"id":"IMP-3-L-74","name":"ชุควูเอบูกา เอ็มมานูเอล อูซูลอร์","team":"T11","position":"MID"},{"id":"IMP-4-L-75","name":"เก็ต อชาวิน อินต๊ะสาร","team":"T5","position":"MID"},{"id":"IMP-4-L-76","name":"กฤตภาส เพราะสำเนียง","team":"T5","position":"MID"},{"id":"IMP-4-L-77","name":"เกียร์ บุรุษเทพ ไชยวุฒิ","team":"T5","position":"MID"},{"id":"IMP-4-L-78","name":"นนท์ นพรุจ วัชรวรงค์","team":"T5","position":"MID"},{"id":"IMP-4-L-79","name":"บิว ธีรภัทร ปันติ๊บ","team":"T5","position":"MID"},{"id":"IMP-4-L-80","name":"อรรณพ พิธีพรม","team":"T5","position":"MID"},{"id":"IMP-4-L-81","name":"น่าน ศิวกร บุตรพรม","team":"T5","position":"MID"},{"id":"IMP-4-L-82","name":"ชิน ศุภพงศ์ วงปัน","team":"T5","position":"MID"},{"id":"IMP-4-L-83","name":"แคน ไพศิษฏ์ ศิริแก้ว","team":"T5","position":"MID"},{"id":"IMP-4-L-84","name":"แบงค์ นพคุณ ไชยลอม C","team":"T5","position":"MID"},{"id":"IMP-4-L-85","name":"สเก็ต วิธวัฒน์ พงศ์หล้า","team":"T5","position":"MID"},{"id":"IMP-4-L-86","name":"เดย์โฟร์ รัตติพงษ์ ดุจทอง","team":"T5","position":"MID"},{"id":"IMP-4-L-87","name":"หนุ่ม สมชาย ลุงแดง","team":"T5","position":"MID"},{"id":"IMP-4-L-88","name":"น้ำพุ ณัฐวุฒิ ปอนสืบ","team":"T5","position":"MID"},{"id":"IMP-4-L-89","name":"เพลง อติชาติ มลีรัตน์","team":"T5","position":"MID"},{"id":"IMP-4-R-90","name":"71GGGGA  69G 21G 19GG 14A 0G","team":"T6","position":"MID"},{"id":"IMP-5-L-91","name":"CHON","team":"T9","position":"MID"},{"id":"IMP-5-R-92","name":"บอสกรณ์","team":"T10","position":"MID"},{"id":"IMP-5-L-93","name":"WR CHIT","team":"T9","position":"MID"},{"id":"IMP-5-R-94","name":"ไนท์","team":"T10","position":"MID"},{"id":"IMP-5-L-95","name":"KAWIN","team":"T9","position":"MID"},{"id":"IMP-5-R-96","name":"หนุ่ม","team":"T10","position":"MID"},{"id":"IMP-5-L-97","name":"SKY","team":"T9","position":"MID"},{"id":"IMP-5-R-98","name":"พี่แฮม","team":"T10","position":"MID"},{"id":"IMP-5-L-99","name":"Peter","team":"T9","position":"MID"},{"id":"IMP-5-R-100","name":"กัปปิตันแดง","team":"T10","position":"MID"},{"id":"IMP-5-L-101","name":"KRON","team":"T9","position":"MID"},{"id":"IMP-5-R-102","name":"ตัน","team":"T10","position":"MID"},{"id":"IMP-5-L-103","name":"Chinna wut","team":"T9","position":"MID"},{"id":"IMP-5-R-104","name":"พี","team":"T10","position":"MID"},{"id":"IMP-5-L-105","name":"KENO","team":"T9","position":"MID"},{"id":"IMP-5-R-106","name":"เต้","team":"T10","position":"MID"},{"id":"IMP-5-L-107","name":"PORN","team":"T9","position":"MID"},{"id":"IMP-5-R-108","name":"มิกเซอร์","team":"T10","position":"MID"},{"id":"IMP-5-L-109","name":"Peerapon","team":"T9","position":"MID"},{"id":"IMP-5-R-110","name":"อ๋อง","team":"T10","position":"MID"},{"id":"IMP-5-L-111","name":"Thanyaporn","team":"T9","position":"MID"},{"id":"IMP-5-R-112","name":"บิว","team":"T10","position":"MID"},{"id":"IMP-5-L-113","name":"PHAKIN","team":"T9","position":"MID"},{"id":"IMP-5-R-114","name":"สิท","team":"T10","position":"MID"},{"id":"IMP-5-L-115","name":"KHAJONLAP","team":"T9","position":"MID"},{"id":"IMP-5-R-116","name":"ไนท์ II","team":"T10","position":"MID"},{"id":"IMP-5-R-117","name":"เบ้นHoBBiT","team":"T10","position":"MID"},{"id":"IMP-5-R-118","name":"อ้นหวัง","team":"T10","position":"MID"},{"id":"IMP-5-R-119","name":"ศิลา","team":"T10","position":"MID"},{"id":"IMP-5-R-120","name":"อจอาจ","team":"T10","position":"MID"},{"id":"IMP-5-L-121","name":"7G (เอี๊ยม) 0G 7G+7G","team":"T9","position":"MID"},{"id":"IMP-5-R-122","name":"14A 70A 15G 15A","team":"T10","position":"MID"}]};
+const HAS_IMPORTED_STATE=!!localStorage.getItem(LEAGUE_KEY);
+loadAll();
+if(!HAS_IMPORTED_STATE){
+  league.fixtures=IMPORTED_SEASON2_DATA.fixtures;
+  league.players=IMPORTED_SEASON2_DATA.players;
+  league.stats=[];
+}
+if(!league.fixtures||!league.fixtures.length)initFixtures();
+for(let w=1;w<=11;w++){league.teams.forEach(t=>{let k=paymentKey(w,t.id);if(!league.payments[k])league.payments[k]={week:w,team:t.id,status:'ยัง',amount:750}})}
+renderNominees();renderNormals();renderPlatform();saveAll();
+
+</script>
+</body></html>
