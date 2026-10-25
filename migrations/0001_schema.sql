@@ -57,3 +57,9 @@ CREATE TABLE IF NOT EXISTS app_meta (
   key TEXT PRIMARY KEY,
   value TEXT NOT NULL
 );
+
+CREATE TABLE IF NOT EXISTS message_attempts (
+  ip_hash TEXT PRIMARY KEY,
+  attempts INTEGER NOT NULL,
+  reset_at INTEGER NOT NULL
+);
