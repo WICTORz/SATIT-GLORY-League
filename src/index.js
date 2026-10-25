@@ -155,6 +155,19 @@ async function readFullState(env, admin) {
   return base;
 }
 
+async function checkMessageLimit(request, env) {
+  const ip = request.headers.get("CF-Connecting-IP") || "unknown";
+  const key = await sha256((env.ADMIN_PASSWORD || "") + ":message:" + ip);
+  const now = Date.now(), reset = now + 15 * 60 * 1000;
+  await env.DB.prepare(
+    "INSERT INTO message_attempts (ip_hash, attempts, reset_at) VALUES (?, 1, ?) " +
+    "ON CONFLICT(ip_hash) DO UPDATE SET attempts = CASE WHEN reset_at <= ? THEN 1 ELSE attempts + 1 END, " +
+    "reset_at = CASE WHEN reset_at <= ? THEN ? ELSE reset_at END"
+  ).bind(key, reset, now, now, reset).run();
+  const row = await env.DB.prepare("SELECT attempts FROM message_attempts WHERE ip_hash = ?").bind(key).first();
+  return (row?.attempts || 0) > 20;
+}
+
 async function checkLoginLimit(request, env) {
   const ip = request.headers.get("CF-Connecting-IP") || "unknown";
   const key = await sha256((env.ADMIN_PASSWORD || "") + ":" + ip);
@@ -330,8 +343,18 @@ async function api(request, env) {
     await env.DB.prepare("INSERT INTO player_stats (week, name, team, goals, assists, points) VALUES (?, ?, ?, ?, ?, ?)").bind(week, name, team, goals, assists, points).run();
     return json({ ok: true }, 201);
   }
+  if (method === "POST" && url.pathname === "/api/messages/remove") {
+    if (!sameOrigin(request)) return json({ error: "same-origin request required" }, 403);
+    if (!await getSession(request, env)) return json({ error: "admin login required" }, 401);
+    const body = await readJson(request);
+    const id = Number(body?.id);
+    if (!Number.isInteger(id) || id < 1) return json({ error: "invalid message id" }, 400);
+    await env.DB.prepare("DELETE FROM inbox WHERE id = ?").bind(id).run();
+    return json({ ok: true });
+  }
   if (method === "POST" && url.pathname === "/api/messages") {
     if (!sameOrigin(request)) return json({ error: "same-origin request required" }, 403);
+    if (await checkMessageLimit(request, env)) return json({ error: "too many messages" }, 429);
     const body = await readJson(request);
     const name = typeof body?.name === "string" ? body.name.trim().slice(0, 100) : "";
     const text = typeof body?.text === "string" ? body.text.trim().slice(0, 2000) : "";
