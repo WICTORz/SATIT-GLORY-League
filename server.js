@@ -16,6 +16,7 @@ const sessions = new Map();
 const limits = new Map();
 let writeQueue = Promise.resolve();
 let store = null;
+const eventClients = new Set();
 
 if (ADMIN_PASSWORD.length < 16) {
   console.error('Set ADMIN_PASSWORD to a secret of at least 16 characters before starting the server.');
@@ -26,7 +27,7 @@ const defaults = () => ({
   _updatedAt: Date.now(), admin: false, muted: false, notices: [], messages: [],
   players: [], stats: [], awards: [], feeStatuses: {}, announcement: '', rules: '',
   feeNote: '', poster: null, posterText: '', matchNotes: {}, teamDescriptions: {},
-  nextPlayerId: 1, statuses: {}
+  nextPlayerId: 1, statuses: {}, scores: {}
 });
 
 function send(res, status, body, headers = {}) {
@@ -92,13 +93,26 @@ function publicState() {
   return { ...store, admin: false, messages: [] };
 }
 
+function writeStateEvent(client) {
+  const authenticated = sessionFor(client.req);
+  client.admin = authenticated;
+  const state = authenticated ? store : publicState();
+  client.res.write('event: state\\ndata: ' + JSON.stringify({ authenticated, state }) + '\\n\\n');
+}
+function broadcastState() {
+  for (const client of eventClients) {
+    try { if (client.res.destroyed || client.res.writableEnded) eventClients.delete(client); else writeStateEvent(client); }
+    catch { eventClients.delete(client); }
+  }
+}
+
 function cleanState(input) {
   if (!input || typeof input !== 'object' || Array.isArray(input)) throw new Error('state must be an object');
-  const allowed = ['muted','notices','players','stats','awards','feeStatuses','announcement','rules','feeNote','poster','posterText','matchNotes','teamDescriptions','nextPlayerId','statuses','messages'];
+  const allowed = ['muted','notices','players','stats','awards','feeStatuses','announcement','rules','feeNote','poster','posterText','matchNotes','teamDescriptions','nextPlayerId','statuses','scores','messages'];
   const next = defaults();
   for (const key of allowed) if (Object.hasOwn(input, key)) next[key] = input[key];
   if (!Array.isArray(next.messages) || !Array.isArray(next.notices) ||
-      !Array.isArray(next.players) || !Array.isArray(next.stats) || !Array.isArray(next.awards)) {
+      !Array.isArray(next.players) || !Array.isArray(next.stats) || !Array.isArray(next.awards) || !next.statuses || typeof next.statuses !== 'object' || Array.isArray(next.statuses) || !next.scores || typeof next.scores !== 'object' || Array.isArray(next.scores)) {
     throw new Error('invalid list data');
   }
   next.admin = false;
@@ -125,6 +139,7 @@ async function persist(next) {
     await fs.writeFile(temp, JSON.stringify(next), { encoding: 'utf8', mode: 0o600 });
     await fs.rename(temp, DATA_FILE);
     store = next;
+    broadcastState();
   });
   return writeQueue;
 }
@@ -139,6 +154,16 @@ async function route(req, res) {
   }
   if (req.method === 'GET' && url.pathname === '/api/state') {
     return send(res, 200, { authenticated: isAdmin, state: isAdmin ? store : publicState() });
+  }
+  if (req.method === 'GET' && url.pathname === '/api/events') {
+    res.writeHead(200, { 'Content-Type': 'text/event-stream; charset=utf-8', 'Cache-Control': 'no-cache, no-transform', 'Connection': 'keep-alive', 'X-Accel-Buffering': 'no' });
+    const client = { req, res };
+    eventClients.add(client);
+    res.write('retry: 3000\\n\\n');
+    writeStateEvent(client);
+    const heartbeat = setInterval(() => { if (res.destroyed || res.writableEnded) { clearInterval(heartbeat); eventClients.delete(client); } else res.write(': keep-alive\\n\\n'); }, 25000);
+    req.on('close', () => { clearInterval(heartbeat); eventClients.delete(client); });
+    return;
   }
   if (req.method === 'POST' && url.pathname === '/api/login') {
     if (!requestOriginMatches(req)) return send(res, 403, { error: 'same-origin request required' });
@@ -170,6 +195,29 @@ async function route(req, res) {
     let next;
     try { next = cleanState(body.state); }
     catch (error) { return send(res, 400, { error: error.message }); }
+    next.scores = store.scores || {};
+    next.statuses = store.statuses || {};
+    await persist(next);
+    return send(res, 200, { ok: true, updatedAt: next._updatedAt });
+  }
+  if (req.method === 'POST' && url.pathname === '/api/match-update') {
+    if (!requestOriginMatches(req)) return send(res, 403, { error: 'same-origin request required' });
+    if (!isAdmin) return send(res, 401, { error: 'admin login required' });
+    const body = await readJson(req);
+    if (!body || typeof body !== 'object' || Array.isArray(body)) return send(res, 400, { error: 'invalid request' });
+    const week = Number(body.week), index = Number(body.index), field = body.field;
+    if (!Number.isInteger(week) || week < 1 || week > 11 || !Number.isInteger(index) || index < 0 || index > 5) return send(res, 400, { error: 'invalid match' });
+    const key = week + '-' + index;
+    let next;
+    if (field === 'status') {
+      if (!['Upcoming...', 'HT', 'FT', '◉ LIVE!'].includes(body.value)) return send(res, 400, { error: 'invalid status' });
+      next = { ...store, statuses: { ...store.statuses, [key]: body.value }, _updatedAt: Date.now() };
+    } else if (field === 'homeScore' || field === 'awayScore') {
+      const value = body.value;
+      if (value !== null && (!Number.isInteger(value) || value < 0 || value > 99)) return send(res, 400, { error: 'invalid score' });
+      const previous = store.scores[key] || {};
+      next = { ...store, scores: { ...store.scores, [key]: { ...previous, [field]: value } }, _updatedAt: Date.now() };
+    } else return send(res, 400, { error: 'invalid field' });
     await persist(next);
     return send(res, 200, { ok: true, updatedAt: next._updatedAt });
   }
