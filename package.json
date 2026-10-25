@@ -1,0 +1,12 @@
+{
+  "name": "satit-glory-league",
+  "version": "1.1.0",
+  "private": true,
+  "description": "SATIT Glory League web app and persistent API",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "start": "node server.js"
+  }
+}
