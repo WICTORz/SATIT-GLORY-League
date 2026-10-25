@@ -234,6 +234,9 @@ async function route(req, res) {
     catch (error) { return send(res, 400, { error: error.message }); }
     next.scores = store.scores || {};
     next.statuses = store.statuses || {};
+    next.players = store.players || [];
+    next.stats = store.stats || [];
+    next.nextPlayerId = store.nextPlayerId || 1;
     await persist(next);
     return send(res, 200, { ok: true, updatedAt: next._updatedAt });
   }
@@ -255,6 +258,14 @@ async function route(req, res) {
       return { ...current, players: [...current.players, created], nextPlayerId: id + 1, _updatedAt: Date.now() };
     });
     return send(res, 201, { ok: true, player: created, nextPlayerId: updated.nextPlayerId });
+  }
+  if (req.method === 'POST' && url.pathname === '/api/players/remove') {
+    if (!requestOriginMatches(req)) return send(res, 403, { error: 'same-origin request required' });
+    if (!isAdmin) return send(res, 401, { error: 'admin login required' });
+    const body = await readJson(req);
+    if (!body || typeof body.id !== 'string') return send(res, 400, { error: 'invalid player id' });
+    const updated = await mutateStore(current => ({ ...current, players: current.players.filter(player => player.id !== body.id), _updatedAt: Date.now() }));
+    return send(res, 200, { ok: true, players: updated.players });
   }
   if (req.method === 'POST' && url.pathname === '/api/player-stats') {
     if (!requestOriginMatches(req)) return send(res, 403, { error: 'same-origin request required' });
