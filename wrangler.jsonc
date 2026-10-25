@@ -14,7 +14,7 @@
     {
       "binding": "DB",
       "database_name": "satit-glory-league",
-      "database_id": "REPLACE_WITH_D1_DATABASE_ID",
+      "database_id": "3a9b2be0-6a07-4771-b663-ca38c4c409ce",
       "migrations_dir": "migrations"
     }
   ]
