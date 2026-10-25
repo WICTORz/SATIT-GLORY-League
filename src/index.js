@@ -26,9 +26,34 @@ function json(data, status = 200, extra = {}) {
   });
 }
 
-function sameOrigin(request) {
+const TRUSTED_ORIGINS = new Set([
+  "https://wictorz.github.io",
+  "http://localhost:8787",
+  "http://127.0.0.1:8787"
+]);
+
+function isTrustedOrigin(request) {
   const origin = request.headers.get("Origin");
-  return Boolean(origin && origin === new URL(request.url).origin);
+  return Boolean(origin && (origin === new URL(request.url).origin || TRUSTED_ORIGINS.has(origin)));
+}
+
+function corsHeaders(request) {
+  const origin = request.headers.get("Origin");
+  if (!isTrustedOrigin(request)) return {};
+  return {
+    "Access-Control-Allow-Origin": origin,
+    "Access-Control-Allow-Credentials": "true",
+    "Access-Control-Allow-Methods": "GET, POST, PUT, OPTIONS",
+    "Access-Control-Allow-Headers": "Content-Type",
+    "Access-Control-Max-Age": "86400",
+    "Vary": "Origin"
+  };
+}
+
+function withCors(request, response) {
+  const headers = new Headers(response.headers);
+  for (const [name, value] of Object.entries(corsHeaders(request))) headers.set(name, value);
+  return new Response(response.body, { status: response.status, statusText: response.statusText, headers });
 }
 
 async function readJson(request) {
@@ -109,8 +134,7 @@ async function getSession(request, env) {
 }
 
 function cookieHeader(value, request, maxAge) {
-  const secure = new URL(request.url).protocol === "https:";
-  return COOKIE_NAME + "=" + value + "; Path=/; HttpOnly; SameSite=Strict; Max-Age=" + maxAge + (secure ? "; Secure" : "");
+  return COOKIE_NAME + "=" + value + "; Path=/; HttpOnly; SameSite=None; Secure; Partitioned; Max-Age=" + maxAge;
 }
 
 async function readFullState(env, admin) {
@@ -182,7 +206,7 @@ async function checkLoginLimit(request, env) {
 }
 
 async function migrateLegacy(request, env) {
-  if (!sameOrigin(request)) return json({ error: "same-origin request required" }, 403);
+  if (!isTrustedOrigin(request)) return json({ error: "same-origin request required" }, 403);
   const session = await getSession(request, env);
   if (!session) return json({ error: "admin login required" }, 401);
   const body = await readJson(request);
@@ -259,7 +283,7 @@ async function api(request, env) {
     return json({ error: "Live updates use state polling on the free tier." }, 410);
   }
   if (method === "POST" && url.pathname === "/api/login") {
-    if (!sameOrigin(request)) return json({ error: "same-origin request required" }, 403);
+    if (!isTrustedOrigin(request)) return json({ error: "same-origin request required" }, 403);
     if (!env.ADMIN_PASSWORD || env.ADMIN_PASSWORD.length < 16) return json({ error: "Admin password is not configured." }, 503);
     if (await checkLoginLimit(request, env)) return json({ error: "try again later" }, 429);
     const body = await readJson(request);
@@ -274,14 +298,14 @@ async function api(request, env) {
     return json({ authenticated: true }, 200, { "Set-Cookie": cookieHeader(token, request, SESSION_MS / 1000) });
   }
   if (method === "POST" && url.pathname === "/api/logout") {
-    if (!sameOrigin(request)) return json({ error: "same-origin request required" }, 403);
+    if (!isTrustedOrigin(request)) return json({ error: "same-origin request required" }, 403);
     const session = await getSession(request, env);
     if (session) await env.DB.prepare("DELETE FROM sessions WHERE token_hash = ?").bind(session.tokenHash).run();
     return json({ ok: true }, 200, { "Set-Cookie": cookieHeader("", request, 0) });
   }
   if (method === "POST" && url.pathname === "/api/migrate-state") return migrateLegacy(request, env);
   if (method === "PUT" && url.pathname === "/api/state") {
-    if (!sameOrigin(request)) return json({ error: "same-origin request required" }, 403);
+    if (!isTrustedOrigin(request)) return json({ error: "same-origin request required" }, 403);
     if (!await getSession(request, env)) return json({ error: "admin login required" }, 401);
     const body = await readJson(request);
     try { await saveBase(env, body?.state); }
@@ -289,7 +313,7 @@ async function api(request, env) {
     return json({ ok: true, updatedAt: Date.now() });
   }
   if (method === "POST" && url.pathname === "/api/match-update") {
-    if (!sameOrigin(request)) return json({ error: "same-origin request required" }, 403);
+    if (!isTrustedOrigin(request)) return json({ error: "same-origin request required" }, 403);
     if (!await getSession(request, env)) return json({ error: "admin login required" }, 401);
     const body = await readJson(request);
     const week = Number(body?.week), index = Number(body?.index), field = body?.field;
@@ -310,7 +334,7 @@ async function api(request, env) {
     return json({ ok: true, updatedAt: Date.now() });
   }
   if (method === "POST" && url.pathname === "/api/players") {
-    if (!sameOrigin(request)) return json({ error: "same-origin request required" }, 403);
+    if (!isTrustedOrigin(request)) return json({ error: "same-origin request required" }, 403);
     if (!await getSession(request, env)) return json({ error: "admin login required" }, 401);
     const body = await readJson(request);
     const name = typeof body?.name === "string" ? body.name.trim().slice(0, 80) : "";
@@ -323,7 +347,7 @@ async function api(request, env) {
     return json({ ok: true, player: { id: "Player " + id, name, full, team, position }, nextPlayerId: id + 1 }, 201);
   }
   if (method === "POST" && url.pathname === "/api/players/remove") {
-    if (!sameOrigin(request)) return json({ error: "same-origin request required" }, 403);
+    if (!isTrustedOrigin(request)) return json({ error: "same-origin request required" }, 403);
     if (!await getSession(request, env)) return json({ error: "admin login required" }, 401);
     const body = await readJson(request);
     const match = typeof body?.id === "string" ? body.id.match(/^Player (\d+)$/) : null;
@@ -332,7 +356,7 @@ async function api(request, env) {
     return json({ ok: true });
   }
   if (method === "POST" && url.pathname === "/api/player-stats") {
-    if (!sameOrigin(request)) return json({ error: "same-origin request required" }, 403);
+    if (!isTrustedOrigin(request)) return json({ error: "same-origin request required" }, 403);
     if (!await getSession(request, env)) return json({ error: "admin login required" }, 401);
     const body = await readJson(request);
     const name = typeof body?.name === "string" ? body.name.trim().slice(0, 80) : "";
@@ -344,7 +368,7 @@ async function api(request, env) {
     return json({ ok: true }, 201);
   }
   if (method === "POST" && url.pathname === "/api/messages/remove") {
-    if (!sameOrigin(request)) return json({ error: "same-origin request required" }, 403);
+    if (!isTrustedOrigin(request)) return json({ error: "same-origin request required" }, 403);
     if (!await getSession(request, env)) return json({ error: "admin login required" }, 401);
     const body = await readJson(request);
     const id = Number(body?.id);
@@ -353,7 +377,7 @@ async function api(request, env) {
     return json({ ok: true });
   }
   if (method === "POST" && url.pathname === "/api/messages") {
-    if (!sameOrigin(request)) return json({ error: "same-origin request required" }, 403);
+    if (!isTrustedOrigin(request)) return json({ error: "same-origin request required" }, 403);
     if (await checkMessageLimit(request, env)) return json({ error: "too many messages" }, 429);
     const body = await readJson(request);
     const name = typeof body?.name === "string" ? body.name.trim().slice(0, 100) : "";
@@ -369,11 +393,16 @@ async function api(request, env) {
 
 export default {
   async fetch(request, env) {
-    try { return await api(request, env); }
+    if (request.method === "OPTIONS") {
+      if (!isTrustedOrigin(request)) return json({ error: "origin not allowed" }, 403);
+      return withCors(request, new Response(null, { status: 204 }));
+    }
+    try { return withCors(request, await api(request, env)); }
     catch (error) {
-      if (error instanceof Response) return error;
+      if (error instanceof Response) return withCors(request, error);
       console.error("Worker request failed", error);
-      return json({ error: "server error" }, 500);
+      return withCors(request, json({ error: "server error" }, 500));
     }
   }
 };
+
