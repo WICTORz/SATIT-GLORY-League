@@ -93,11 +93,18 @@ function publicState() {
   return { ...store, admin: false, messages: [] };
 }
 
+function hasSavedData(value) {
+  return Boolean(value && ((value.players && value.players.length) || (value.stats && value.stats.length) ||
+    (value.awards && value.awards.length) || (value.messages && value.messages.length) || value.poster ||
+    value.announcement || value.rules || Object.keys(value.feeStatuses || {}).length ||
+    Object.keys(value.scores || {}).length || Object.keys(value.statuses || {}).length));
+}
+
 function writeStateEvent(client) {
   const authenticated = sessionFor(client.req);
   client.admin = authenticated;
   const state = authenticated ? store : publicState();
-  client.res.write('event: state\\ndata: ' + JSON.stringify({ authenticated, state }) + '\\n\\n');
+  client.res.write('event: state\ndata: ' + JSON.stringify({ authenticated, state }) + '\n\n');
 }
 function broadcastState() {
   for (const client of eventClients) {
@@ -132,8 +139,10 @@ async function readJson(req) {
   catch { throw Object.assign(new Error('invalid JSON'), { status: 400 }); }
 }
 
-async function persist(next) {
+async function persist(next, onlyIfEmpty = false) {
+  let didWrite = true;
   writeQueue = writeQueue.catch(() => {}).then(async () => {
+    if (onlyIfEmpty && hasSavedData(store)) { didWrite = false; return; }
     await fs.mkdir(DATA_DIR, { recursive: true });
     const temp = DATA_FILE + '.' + crypto.randomBytes(6).toString('hex') + '.tmp';
     await fs.writeFile(temp, JSON.stringify(next), { encoding: 'utf8', mode: 0o600 });
@@ -141,7 +150,8 @@ async function persist(next) {
     store = next;
     broadcastState();
   });
-  return writeQueue;
+  await writeQueue;
+  return didWrite;
 }
 
 async function route(req, res) {
@@ -159,9 +169,9 @@ async function route(req, res) {
     res.writeHead(200, { 'Content-Type': 'text/event-stream; charset=utf-8', 'Cache-Control': 'no-cache, no-transform', 'Connection': 'keep-alive', 'X-Accel-Buffering': 'no' });
     const client = { req, res };
     eventClients.add(client);
-    res.write('retry: 3000\\n\\n');
+    res.write('retry: 3000\n\n');
     writeStateEvent(client);
-    const heartbeat = setInterval(() => { if (res.destroyed || res.writableEnded) { clearInterval(heartbeat); eventClients.delete(client); } else res.write(': keep-alive\\n\\n'); }, 25000);
+    const heartbeat = setInterval(() => { if (res.destroyed || res.writableEnded) { clearInterval(heartbeat); eventClients.delete(client); } else res.write(': keep-alive\n\n'); }, 25000);
     req.on('close', () => { clearInterval(heartbeat); eventClients.delete(client); });
     return;
   }
@@ -186,6 +196,18 @@ async function route(req, res) {
     const item = header.split(';').map(v => v.trim()).find(v => v.startsWith(COOKIE_NAME + '='));
     if (item) sessions.delete(item.slice(COOKIE_NAME.length + 1));
     return send(res, 200, { ok: true }, { 'Set-Cookie': cookie('', req, 0) });
+  }
+  if (req.method === 'POST' && url.pathname === '/api/migrate-state') {
+    if (!requestOriginMatches(req)) return send(res, 403, { error: 'same-origin request required' });
+    if (!isAdmin) return send(res, 401, { error: 'admin login required' });
+    const body = await readJson(req);
+    if (!body || typeof body !== 'object' || Array.isArray(body)) return send(res, 400, { error: 'invalid request' });
+    let next;
+    try { next = cleanState(body.state); } catch (error) { return send(res, 400, { error: error.message }); }
+    next.scores = store.scores || {};
+    next.statuses = store.statuses || {};
+    const saved = await persist(next, true);
+    return saved ? send(res, 200, { ok: true, migrated: true }) : send(res, 409, { error: 'server already contains saved data' });
   }
   if (req.method === 'PUT' && url.pathname === '/api/state') {
     if (!requestOriginMatches(req)) return send(res, 403, { error: 'same-origin request required' });
