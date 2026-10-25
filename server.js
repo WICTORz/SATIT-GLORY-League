@@ -154,6 +154,21 @@ async function persist(next, onlyIfEmpty = false) {
   return didWrite;
 }
 
+async function mutateStore(mutator) {
+  let updated;
+  writeQueue = writeQueue.catch(() => {}).then(async () => {
+    updated = mutator(store);
+    await fs.mkdir(DATA_DIR, { recursive: true });
+    const temp = DATA_FILE + '.' + crypto.randomBytes(6).toString('hex') + '.tmp';
+    await fs.writeFile(temp, JSON.stringify(updated), { encoding: 'utf8', mode: 0o600 });
+    await fs.rename(temp, DATA_FILE);
+    store = updated;
+    broadcastState();
+  });
+  await writeQueue;
+  return updated;
+}
+
 async function route(req, res) {
   secureHeaders(res);
   const url = new URL(req.url, 'http://localhost');
@@ -221,6 +236,42 @@ async function route(req, res) {
     next.statuses = store.statuses || {};
     await persist(next);
     return send(res, 200, { ok: true, updatedAt: next._updatedAt });
+  }
+  if (req.method === 'POST' && url.pathname === '/api/players') {
+    if (!requestOriginMatches(req)) return send(res, 403, { error: 'same-origin request required' });
+    if (!isAdmin) return send(res, 401, { error: 'admin login required' });
+    const body = await readJson(req);
+    if (!body || typeof body !== 'object' || Array.isArray(body)) return send(res, 400, { error: 'invalid request' });
+    const name = typeof body.name === 'string' ? body.name.trim().slice(0, 80) : '';
+    const full = typeof body.full === 'string' ? body.full.trim().slice(0, 120) : '';
+    const team = typeof body.team === 'string' ? body.team.trim().slice(0, 80) : '';
+    const position = typeof body.position === 'string' ? body.position.trim().slice(0, 80) : '';
+    if (!name || !team || !position) return send(res, 400, { error: 'name, team and position are required' });
+    if (store.players.length >= 2000) return send(res, 400, { error: 'player limit reached' });
+    let created;
+    const updated = await mutateStore(current => {
+      const id = Number(current.nextPlayerId || 1);
+      created = { id: 'Player ' + id, name, full, team, position };
+      return { ...current, players: [...current.players, created], nextPlayerId: id + 1, _updatedAt: Date.now() };
+    });
+    return send(res, 201, { ok: true, player: created, nextPlayerId: updated.nextPlayerId });
+  }
+  if (req.method === 'POST' && url.pathname === '/api/player-stats') {
+    if (!requestOriginMatches(req)) return send(res, 403, { error: 'same-origin request required' });
+    if (!isAdmin) return send(res, 401, { error: 'admin login required' });
+    const body = await readJson(req);
+    if (!body || typeof body !== 'object' || Array.isArray(body)) return send(res, 400, { error: 'invalid request' });
+    const name = typeof body.name === 'string' ? body.name.trim().slice(0, 80) : '';
+    const team = typeof body.team === 'string' ? body.team.trim().slice(0, 80) : '';
+    const week = String(body.week || '').slice(0, 20);
+    const goals = Number(body.goals), assists = Number(body.assists), points = Number(body.points);
+    if (!name || !team || !week || ![goals, assists, points].every(v => Number.isInteger(v) && v >= 0 && v <= 100)) return send(res, 400, { error: 'invalid player stats' });
+    let created;
+    await mutateStore(current => {
+      created = { week, name, team, goals, assists, points };
+      return { ...current, stats: [...current.stats, created], _updatedAt: Date.now() };
+    });
+    return send(res, 201, { ok: true, stat: created });
   }
   if (req.method === 'POST' && url.pathname === '/api/match-update') {
     if (!requestOriginMatches(req)) return send(res, 403, { error: 'same-origin request required' });
