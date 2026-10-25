@@ -1,0 +1,19 @@
+{
+  "name": "satit-glory-league",
+  "version": "1.2.0",
+  "private": true,
+  "description": "SATIT Glory League on Cloudflare Workers and D1",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "db:create": "wrangler d1 create satit-glory-league",
+    "db:migrate:local": "wrangler d1 migrations apply satit-glory-league --local",
+    "db:migrate:remote": "wrangler d1 migrations apply satit-glory-league --remote"
+  },
+  "devDependencies": {
+    "wrangler": "^4.0.0"
+  }
+}
