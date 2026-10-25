@@ -119,7 +119,7 @@ async function readJson(req) {
 }
 
 async function persist(next) {
-  writeQueue = writeQueue.then(async () => {
+  writeQueue = writeQueue.catch(() => {}).then(async () => {
     await fs.mkdir(DATA_DIR, { recursive: true });
     const temp = DATA_FILE + '.' + crypto.randomBytes(6).toString('hex') + '.tmp';
     await fs.writeFile(temp, JSON.stringify(next), { encoding: 'utf8', mode: 0o600 });
@@ -145,6 +145,7 @@ async function route(req, res) {
     const ip = clientIp(req);
     if (limited('login:' + ip, 8, 15 * 60 * 1000)) return send(res, 429, { error: 'try again later' });
     const body = await readJson(req);
+    if (!body || typeof body !== 'object' || Array.isArray(body)) return send(res, 400, { error: 'invalid request' });
     const supplied = typeof body.password === 'string' ? body.password : '';
     const expected = Buffer.from(ADMIN_PASSWORD);
     const actual = Buffer.from(supplied);
@@ -165,6 +166,7 @@ async function route(req, res) {
     if (!requestOriginMatches(req)) return send(res, 403, { error: 'same-origin request required' });
     if (!isAdmin) return send(res, 401, { error: 'admin login required' });
     const body = await readJson(req);
+    if (!body || typeof body !== 'object' || Array.isArray(body)) return send(res, 400, { error: 'invalid request' });
     let next;
     try { next = cleanState(body.state); }
     catch (error) { return send(res, 400, { error: error.message }); }
@@ -175,6 +177,7 @@ async function route(req, res) {
     if (!requestOriginMatches(req)) return send(res, 403, { error: 'same-origin request required' });
     if (limited('messages:' + clientIp(req), 20, 15 * 60 * 1000)) return send(res, 429, { error: 'too many messages' });
     const body = await readJson(req);
+    if (!body || typeof body !== 'object' || Array.isArray(body)) return send(res, 400, { error: 'invalid request' });
     const name = typeof body.name === 'string' ? body.name.trim().slice(0, 100) : '';
     const text = typeof body.text === 'string' ? body.text.trim().slice(0, 2000) : '';
     const type = typeof body.type === 'string' ? body.type.trim().slice(0, 60) : '';
