@@ -165,7 +165,7 @@ async function checkMessageLimit(request, env) {
     "reset_at = CASE WHEN reset_at <= ? THEN ? ELSE reset_at END"
   ).bind(key, reset, now, now, reset).run();
   const row = await env.DB.prepare("SELECT attempts FROM message_attempts WHERE ip_hash = ?").bind(key).first();
-  return (row?.attempts || 0) > 20;
+  return (row?.attempts || 0) > 100;
 }
 
 async function checkLoginLimit(request, env) {
@@ -178,7 +178,7 @@ async function checkLoginLimit(request, env) {
     "reset_at = CASE WHEN reset_at <= ? THEN ? ELSE reset_at END"
   ).bind(key, reset, now, now, reset).run();
   const row = await env.DB.prepare("SELECT attempts FROM login_attempts WHERE ip_hash = ?").bind(key).first();
-  return (row?.attempts || 0) > 8;
+  return (row?.attempts || 0) > 30;
 }
 
 async function migrateLegacy(request, env) {
